@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/mheadergeofence"
+        android:layout_width="match_parent"
+android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/ColorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tag_geofence_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="GEOFENCE"
+            android:textColor="@color/headingtextcolor"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mheadergeofence"
+        class="com.google.android.gms.maps.MapFragment"
+        android:layout_above="@+id/mlistgeofenceplaces" />
+
+
+
+
+
+
+    <ListView
+        android:id="@+id/mlistgeofenceplaces"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true" >
+    </ListView>
+    <android.support.design.widget.CoordinatorLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            app:layout_behavior="geofence.killerrech.com.GeoAlert.FloatingActionButtonBehavior"
+            android:layout_margin="16dp"
+            android:src="#11111111" />
+    </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

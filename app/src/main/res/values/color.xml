@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <!-- Colours code used in Application -->
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="grey">#544741</color>
+    <color name="light_grey">#f2f3f3</color>
+    <color name="green">#2dcc70</color>
+    <color name="sign_in_button">#cbc7c6</color>
+    <color name="blue">#009ACD</color>
+    <color name="list_background">#544741</color>
+    <color name="list_background_pressed">#f2f3f3</color>
+    <color name="list_divider">#272727</color>
+    <color name="counter_text_color">#c5c4c4</color>
+    <color name="list_item_title">#fff</color>
+    <color name="counter_text_bg">#626262</color>
+    <color name="screen_background">#FFFFFF</color>
+    <color name="heading_color">#000000</color>
+    <color name="blue_text">#3FE0E8</color>
+    <color name="bakgroundolor">#2F425A</color>
+     <color name="orange">#F15A2C</color>
+     <color name="orangeText">#F15944</color>
+     <color name="bluetag">#4742DE</color>
+     
+     <color name="default_screen_bg">#f9f9f9</color>
+    <color name="rounded_container_bg">#222222</color>
+    <color name="rounded_container_border">#3b3f44</color>
+    <color name="light_gray_header_color">#646663</color>
+     
+      <color name="lightbluetext">#57C5CE</color>
+     <color name="lightbluebutton">#40E1E9</color>
+     <color name="greytext">#B4B4B4</color>
+     <color name="headingtextcolor">#B43929</color>
+  
+  
+     <color name="greyline">#EFEFEF</color>
+     
+   <color name="Red">#FF0000</color>
+   <color name="headerorange">#FF5944</color>
+   <color name="headercolor">#3F5B67</color>
+   <color name="listgreycolor">#E6E6E6</color>
+   <color name="bluebutton">#60C9D7</color>
+
+
+    <color name="ColorPrimary">#e62117</color>
+    <color name="ColorPrimaryDark">#c31c13</color>
+    <color name="tabsScrollColor">#8a140e</color>
+
+
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#e62117</color>
+   <!-- <color name="orange">#FF8000</color> --> 
+</resources>

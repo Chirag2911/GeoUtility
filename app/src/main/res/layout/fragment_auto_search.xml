@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    >
+
+    <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:id="@+id/mlinear"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            android:layout_alignParentTop="true"
+            android:background="@color/grey"
+            android:gravity="center"
+            android:orientation="vertical"
+
+            >
+
+            <com.killerrech.Utility.CustomAutoCompleteTextView
+                android:id="@+id/atv_places"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/ico_searchbar"
+                android:drawableLeft="@drawable/ico_search"
+                android:drawablePadding="5dp"
+                android:hint="Enter Places"
+                android:padding="8dp"
+                android:singleLine="true"/>
+
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+
+            android:layout_below="@+id/mlinear"
+            />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/mlineargeofenceplaces"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtadd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffffff"
+            android:text="Please set the radius of the geofence"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/txtradius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="1"
+            android:textColor="#ffffff"/>
+
+        <SeekBar
+            android:id="@+id/geofenceseekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:max="50"
+            android:maxHeight="2dp"
+            android:progress="1"
+            android:progressDrawable="@drawable/progressseekbar"
+            android:thumb="@drawable/ico_pin"
+            android:thumbOffset="2dp"/>
+
+        <EditText
+            android:id="@+id/geofencebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:hint="Enter the Name of geofence GeoFence"
+            android:textColorHint="#ffffff"
+            android:padding="5dp"
+            android:textColor="#ffffff"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_save_auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+
+        android:src="#11111111"
+        app:layout_anchor="@+id/mlineargeofenceplaces"
+        app:layout_anchorGravity="end|top"/>
+</android.support.design.widget.CoordinatorLayout>
