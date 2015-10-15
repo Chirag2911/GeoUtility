@@ -47,7 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class AutoSearchFragment extends Fragment {
+public class AutoSearchFragment extends Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -83,12 +83,14 @@ View view;
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
 
     public AutoSearchFragment() {
         // Required empty public constructor
+
     }
 
 
