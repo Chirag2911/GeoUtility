@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mgeofencelinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/mgeofenceTagname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tag Name"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:id="@+id/mgeofencetaglocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tag Loction"
+            android:layout_below="@+id/mgeofenceTagname"
+             android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp" />
+
+        <Button
+            android:id="@+id/medit"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/mdelete"
+            android:background="@color/blue_text"
+          
+            android:text="EDIT" />
+
+        <Button
+            android:id="@+id/mdelete"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/Red"
+           
+           
+            android:text="DELETE" />
+
+    </RelativeLayout>
+
+
