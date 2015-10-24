@@ -114,7 +114,7 @@ View view;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-            view = inflater.inflate(R.layout.fragment_auto_search, container,
+            view = inflater.inflate(R.layout.fragme nt_auto_search, container,
                     false);
 
         medit=(EditText)view.findViewById(R.id.geofencebutton);
