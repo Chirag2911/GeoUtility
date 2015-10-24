@@ -43,11 +43,12 @@ public class MainActivity extends FragmentActivity {
 
             while (cr.isAfterLast()) {
                 Geofencemodel gd = new Geofencemodel();
-                gd.setLatitude(cr.getString(cr.getColumnIndex(DBHelper.GEO_LATITUDE)));
-                gd.setLongitude(cr.getString(cr.getColumnIndex(DBHelper.GEO_LONGITUDE)));
+                gd.setLatitude(Double.parseDouble(cr.getString(cr.getColumnIndex(DBHelper.GEO_LATITUDE))));
+                gd.setLongitude(Double.parseDouble(cr.getString(cr.getColumnIndex(DBHelper.GEO_LONGITUDE))));
                 gd.setRadius(cr.getString(cr.getColumnIndex(DBHelper.GEO_RADIUS)));
                 gd.setAddress(cr.getString(cr.getColumnIndex(DBHelper.GEO_Address)));
                 gd.setGeoName(cr.getString(cr.getColumnIndex(DBHelper.GEO_NAME)));
+                gd.setId(cr.getString(cr.getColumnIndex(DBHelper.GEOLOC_ID)));
 mgeo_list.add(gd);
 
 

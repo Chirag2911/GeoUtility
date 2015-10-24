@@ -199,6 +199,10 @@
 //            return;
 //        }
 //
+//        GeofencingRequest re=getGeofencingRequest();
+//        re.getGeofences().get(1).
+//
+//
 //        try {
 //            LocationServices.GeofencingApi.addGeofences(
 //                    mGoogleApiClient,

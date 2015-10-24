@@ -94,7 +94,7 @@ public class GeofenceBuilder implements
         // onConnected() will be called again automatically when the service reconnects
     }
 
-    private GeofencingRequest getGeofencingRequest() {
+    private GeofencingRequest getGeofencingRequest(Geofence geofence) {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
 
         // The INITIAL_TRIGGER_ENTER flag indicates that geofencing service should trigger a
@@ -103,7 +103,7 @@ public class GeofenceBuilder implements
         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
 
         // Add the geofences to be monitored by geofencing service.
-        builder.addGeofences(mGeofenceList);
+        builder.addGeofence(geofence);
 
         // Return a GeofencingRequest.
         return builder.build();
@@ -113,7 +113,7 @@ public class GeofenceBuilder implements
      * Adds geofences, which sets alerts to be notified when the device enters or exits one of the
      * specified geofences. Handles the success or failure results returned by addGeofences().
      */
-    public void addGeofencesButtonHandler(View view) {
+    public void addGeofencesButtonHandler(Geofence geofence) {
         if (!mGoogleApiClient.isConnected()) {
 //            Toast.makeText(,"Connected", Toast.LENGTH_SHORT).show();
             return;
@@ -123,7 +123,7 @@ public class GeofenceBuilder implements
             LocationServices.GeofencingApi.addGeofences(
                     mGoogleApiClient,
                     // The GeofenceRequest object.
-                    getGeofencingRequest(),
+                    getGeofencingRequest(geofence),
                     // A pending intent that that is reused when calling removeGeofences(). This
                     // pending intent is used to generate an intent when a matched geofence
                     // transition is observed.
