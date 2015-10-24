@@ -34,8 +34,15 @@ import com.google.android.gms.location.GeofencingEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 import geofence.killerrech.com.GeoAlert.R;
 
+||||||| merged common ancestors
+=======
+import geofence.killerrech.com.GeoAlert.MainActivity;
+import geofence.killerrech.com.GeoAlert.R;
+
+>>>>>>> GeofennceWithAddOperation
 /**
  * Listener for geofence transition changes.
  *

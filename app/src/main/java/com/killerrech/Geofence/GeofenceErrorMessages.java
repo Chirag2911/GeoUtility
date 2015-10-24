@@ -21,6 +21,8 @@ import android.content.res.Resources;
 
 import com.google.android.gms.location.GeofenceStatusCodes;
 
+import geofence.killerrech.com.GeoAlert.R;
+
 /**
  * Geofence error codes mapped to error messages.
  */

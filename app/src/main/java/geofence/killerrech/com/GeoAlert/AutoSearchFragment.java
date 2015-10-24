@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.killerrech.Utility.PlaceJSONParser;
 import com.killerrech.database.TablesController;
+import com.killerrech.model.Geofencemodel;
 
 
 import org.json.JSONArray;
@@ -51,7 +52,6 @@ public class AutoSearchFragment extends Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    TablesController tbController;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -68,6 +68,7 @@ public class AutoSearchFragment extends Fragment  {
     private TextView mtxtRadius;
     List<HashMap<String, String>> places = null;
     private double mlat, mlong;
+    public static Geofencemodel GeofenceTOAdd;
 
     private EditText medit;
 View view;
@@ -118,18 +119,22 @@ View view;
                     false);
 
         medit=(EditText)view.findViewById(R.id.geofencebutton);
-        tbController= TablesController.getTablesController(getActivity());
-        tbController.open();
+
         view.findViewById(R.id.fab_save_auto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                long insertedid=tbController.addGeoLocation(""+mlat,""+mlong,mtxtRadius.getText().toString(),searchLocation,medit.getText().toString());
-//                System.out.println("-----insert--id"+insertedid);
 
-                Intent mintent = new Intent(getActivity(),MainActivity.class
-                );
-                startActivity(mintent);
-                getActivity().finish();
+
+                GeofenceTOAdd=new Geofencemodel();
+                GeofenceTOAdd.setGeoName(medit.getText().toString());
+                GeofenceTOAdd.setAddress(searchLocation);
+                GeofenceTOAdd.setRadius(mtxtRadius.getText().toString());
+                GeofenceTOAdd.setLatitude(mlat);
+                GeofenceTOAdd.setLongitude(mlong);
+                ((AddGeoFence)getActivity()).mGeofencesAdded=true;
+                ((AddGeoFence)getActivity()).addGeofencesButtonHandler(GeofenceTOAdd.getGeofence());
+
+
             }
         });
 
