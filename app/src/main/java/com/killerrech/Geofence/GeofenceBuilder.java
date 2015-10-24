@@ -72,6 +72,13 @@ public class GeofenceBuilder implements
 
         return object;
     }
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(mcontext)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
 
 
     @Override
@@ -200,7 +207,7 @@ public class GeofenceBuilder implements
 
     /**
      * Gets a PendingIntent to send with the request to add or remove Geofences. Location Services
-     * issues the Intent inside this PendingIntent whenever a geofence transition occurs for the
+     * issues the Intent insgetGeofencePendingIntentide this PendingIntent whenever a geofence transition occurs for the
      * current list of geofences.
      *
      * @return A PendingIntent for the IntentService that handles geofence transitions.

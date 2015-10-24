@@ -34,6 +34,8 @@ import com.google.android.gms.location.GeofencingEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import geofence.killerrech.com.GeoAlert.R;
+
 /**
  * Listener for geofence transition changes.
  *
