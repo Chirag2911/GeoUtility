@@ -1,14 +1,24 @@
 package geofence.killerrech.com.GeoAlert;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.killerrech.model.Geofencemodel;
 
 
 public class ManualSearchFragment extends Fragment {
@@ -18,9 +28,23 @@ public class ManualSearchFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    GoogleMap googleMap;
-    View view;
 
+    View view;
+    int radiusProgress;
+    private double mlat, mlong;
+    public static Geofencemodel GeofenceTOAdd;
+    private SeekBar mseekbar;
+    GoogleMap googleMap;
+    MarkerOptions markerOptions;
+    int radius;
+    private String searchLocation;
+    LatLng latLng;
+    AutoCompleteTextView atvPlaces;
+
+
+    private TextView mtxtRadius;
+
+    private EditText medit;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -67,9 +91,59 @@ public class ManualSearchFragment extends Fragment {
 //                        .findFragmentById(R.id.map)).getMap();
 
 
+        medit=(EditText)view.findViewById(R.id.geofencebutton);
 
 
         // Loading map
+        atvPlaces=(AutoCompleteTextView)view.findViewById(R.id.atv_places);
+        mtxtRadius=(TextView)view.findViewById(R.id.txtradius);
+        mseekbar = (SeekBar) view.findViewById(R.id.geofenceseekBar);
+        view.findViewById(R.id.savemanualfab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                GeofenceTOAdd=new Geofencemodel();
+                GeofenceTOAdd.setGeoName(medit.getText().toString());
+                GeofenceTOAdd.setAddress(searchLocation);
+                GeofenceTOAdd.setRadius(radiusProgress+"");
+                GeofenceTOAdd.setLatitude(mlat);
+                GeofenceTOAdd.setLongitude(mlong);
+                ((AddGeoFence)getActivity()).mGeofencesAdded=true;
+                ((AddGeoFence)getActivity()).addGeofencesButtonHandler(GeofenceTOAdd.getGeofence());
+
+
+            }
+        });
+        mseekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                // TODO Auto-generated method stub
+                radiusProgress = progress;
+                mtxtRadius.setText("" + progress + "Km");
+
+
+                if ((mlat != 0) && (mlong != 0)) {
+
+                    setGoogleMap(mlat, mlong, progress);
+
+                }
+            }
+        });
 
 
         // Changing map type
@@ -107,6 +181,28 @@ public class ManualSearchFragment extends Fragment {
 
 
 
+    public void setGoogleMap(double mlat, double mlong, int r) {
+        googleMap.clear();
+        System.out
+                .println("getLatitudeaddfence" + mlat + "getlonitude" + mlong);
+
+        latLng = new LatLng(mlat, mlong);
+
+        markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        // markerOptions.title(addressText);
+
+        googleMap.addMarker(markerOptions);
+
+        googleMap.addCircle(new CircleOptions().center(latLng).radius(r * 1000)
+                .strokeColor(Color.BLACK).fillColor(0x30ff0000).strokeWidth(2));
+        // Locate the first location
+        // if(i==0)
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+        // googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom);
+    }
 
 
     /**

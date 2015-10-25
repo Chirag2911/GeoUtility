@@ -48,11 +48,11 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class AutoSearchFragment extends Fragment  {
+public class  AutoSearchFragment extends Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-
+    int radiusProgress;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private boolean flag = false;
@@ -115,7 +115,7 @@ View view;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-            view = inflater.inflate(R.layout.fragme nt_auto_search, container,
+            view = inflater.inflate(R.layout.fragment_auto_search, container,
                     false);
 
         medit=(EditText)view.findViewById(R.id.geofencebutton);
@@ -128,7 +128,7 @@ View view;
                 GeofenceTOAdd=new Geofencemodel();
                 GeofenceTOAdd.setGeoName(medit.getText().toString());
                 GeofenceTOAdd.setAddress(searchLocation);
-                GeofenceTOAdd.setRadius(mtxtRadius.getText().toString());
+                GeofenceTOAdd.setRadius(radiusProgress+"");
                 GeofenceTOAdd.setLatitude(mlat);
                 GeofenceTOAdd.setLongitude(mlong);
                 ((AddGeoFence)getActivity()).mGeofencesAdded=true;
@@ -168,6 +168,7 @@ View view;
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 // TODO Auto-generated method stub
+                radiusProgress=progress;
                 mtxtRadius.setText("" + progress + "Km");
 
 

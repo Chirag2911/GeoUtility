@@ -5,8 +5,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <uses-permission android:name="android.permisssion.ACCESS_COARSE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <permission
+    <uses-permission android:name="android.permission.INTERNET" />
+
+        <permission
         android:name="geofence.killerrech.com.GeoAlert.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
 <uses-sdk android:targetSdkVersion="20"></uses-sdk>
@@ -17,6 +21,11 @@
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme"
         >
+
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
 
 
@@ -40,7 +49,12 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCgzbTgo-42eg8T_zHuUgU0LPYB2eHMYgo"/>
-    </application>
+            android:value="AIzaSyCJCgviS3bWZUegq4FaW1EdCWfTzq7zRjk"/>
+
+        <service android:name="com.killerrech.Geofence.GeofenceTransitionsIntentService"/>    </application>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
 
 </manifest>

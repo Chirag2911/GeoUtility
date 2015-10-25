@@ -60,7 +60,6 @@ android:layout_height="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            app:layout_behavior="geofence.killerrech.com.GeoAlert.FloatingActionButtonBehavior"
             android:layout_margin="16dp"
             android:src="#11111111" />
     </android.support.design.widget.CoordinatorLayout>

@@ -3,6 +3,7 @@ package geofence.killerrech.com.GeoAlert;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -101,6 +103,8 @@ public class AddGeoFence extends ActionBarActivity implements
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
+        buildGoogleApiClient();
+
 
 
     }
@@ -168,6 +172,30 @@ public class AddGeoFence extends ActionBarActivity implements
      * Adds geofences, which sets alerts to be notified when the device enters or exits one of the
      * specified geofences. Handles the success or failure results returned by addGeofences().
      */
+
+
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+    }
+
+
     public void addGeofencesButtonHandler(Geofence geofence) {
         if (!mGoogleApiClient.isConnected()) {
 //            Toast.makeText(,"Connected", Toast.LENGTH_SHORT).show();
@@ -243,6 +271,7 @@ public class AddGeoFence extends ActionBarActivity implements
                 long insertedid=tbController.
                         addGeoLocation(geofence.getId(),geofence.getLatitude()+"",geofence.getLongitude()+"",geofence.getRadius(),geofence.getAddress(),geofence.getGeoName());
                 System.out.println("-----insert--id"+insertedid);
+                Toast.makeText(this,"Geofence Create",Toast.LENGTH_SHORT).show();
                 Intent mintent = new Intent(this,MainActivity.class
                 );
                 startActivity(mintent);

@@ -34,15 +34,12 @@ import com.google.android.gms.location.GeofencingEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-import geofence.killerrech.com.GeoAlert.R;
 
-||||||| merged common ancestors
-=======
 import geofence.killerrech.com.GeoAlert.MainActivity;
 import geofence.killerrech.com.GeoAlert.R;
 
->>>>>>> GeofennceWithAddOperation
+import geofence.killerrech.com.GeoAlert.R;
+
 /**
  * Listener for geofence transition changes.
  *
@@ -53,6 +50,7 @@ import geofence.killerrech.com.GeoAlert.R;
 public class GeofenceTransitionsIntentService extends IntentService {
 
     protected static final String TAG = "GeofenceTransitionsIS";
+    int geofenceTransition;
 
     /**
      * This constructor is required, and calls the super IntentService(String)
@@ -84,7 +82,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         }
 
         // Get the transition type.
-        int geofenceTransition = geofencingEvent.getGeofenceTransition();
+         geofenceTransition = geofencingEvent.getGeofenceTransition();
 
         // Test that the reported transition was of interest.
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
@@ -159,15 +157,15 @@ public class GeofenceTransitionsIntentService extends IntentService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
         // Define the notification settings.
-        builder.setSmallIcon(R.drawable.ic_launcher)
+        builder.setSmallIcon(R.drawable.ic_cast_dark)
                 // In a real app, you may want to use a library like Volley
                 // to decode the Bitmap.
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                        R.drawable.ic_launcher))
+                        R.drawable.ic_cast_dark))
                 .setColor(Color.RED)
                 .setContentTitle(notificationDetails)
-                .setContentText(getString(R.string.geofence_transition_notification_text))
-                .setContentIntent(notificationPendingIntent);
+                .setContentText(getTransitionString(geofenceTransition))
+                        .setContentIntent(notificationPendingIntent);
 
         // Dismiss notification once the user touches it.
         builder.setAutoCancel(true);
