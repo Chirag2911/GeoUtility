@@ -1,6 +1,7 @@
 
 package geofence.killerrech.com.GeoAlert;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 
 
@@ -12,8 +13,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,6 +37,7 @@ public class MainActivity extends FragmentActivity {
     private ArrayList<Geofencemodel> mgeo_list;
     ListView mainListView;
     TablesController tbController;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,7 @@ public class MainActivity extends FragmentActivity {
 
 
         mgeo_list = new ArrayList<>();
-
+        fab=(FloatingActionButton)findViewById(R.id.fab);
         tbController = TablesController.getTablesController(this);
         tbController.open();
         Cursor cr = tbController.getAllGeoLocation();
@@ -78,9 +82,23 @@ public class MainActivity extends FragmentActivity {
         madapter = new GeofenceAdapter(MainActivity.this, mgeo_list);
 
         mainListView = (ListView) findViewById(R.id.mlistgeofenceplaces);
+        mainListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        fab.setVisibility(View.GONE);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        fab.setVisibility(View.VISIBLE);
+                        break;
+                }
+                return false;
+            }
+        });
 
         mainListView.setAdapter(madapter);
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent mintent = new Intent(MainActivity.this, AddGeoFence.class

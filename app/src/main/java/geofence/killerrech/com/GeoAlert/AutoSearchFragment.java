@@ -69,6 +69,7 @@ public class  AutoSearchFragment extends Fragment  {
     List<HashMap<String, String>> places = null;
     private double mlat, mlong;
     public static Geofencemodel GeofenceTOAdd;
+    public static boolean  isFlag;
 
     private EditText medit;
 View view;
@@ -124,7 +125,7 @@ View view;
             @Override
             public void onClick(View view) {
 
-
+                isFlag=true;
                 GeofenceTOAdd=new Geofencemodel();
                 GeofenceTOAdd.setGeoName(medit.getText().toString());
                 GeofenceTOAdd.setAddress(searchLocation);

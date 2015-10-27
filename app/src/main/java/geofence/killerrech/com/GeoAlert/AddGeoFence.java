@@ -266,7 +266,11 @@ public class AddGeoFence extends ActionBarActivity implements
             if(mGeofencesAdded){
                 tbController= TablesController.getTablesController(this);
                 tbController.open();
-                Geofencemodel geofence=AutoSearchFragment.GeofenceTOAdd;
+                Geofencemodel geofence;
+                if(AutoSearchFragment.isFlag)
+                     geofence= AutoSearchFragment.GeofenceTOAdd;
+                else
+                 geofence=ManualSearchFragment.GeofenceTOAdd;
 
                 long insertedid=tbController.
                         addGeoLocation(geofence.getId(),geofence.getLatitude()+"",geofence.getLongitude()+"",geofence.getRadius(),geofence.getAddress(),geofence.getGeoName());
