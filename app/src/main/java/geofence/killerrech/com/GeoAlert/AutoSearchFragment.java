@@ -6,6 +6,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -64,12 +65,15 @@ public class  AutoSearchFragment extends Fragment  {
     LatLng latLng;
     AutoCompleteTextView atvPlaces;
     PlacesTask placesTask;
+    double prevtime,currentTimel;
+
     ParserTask parserTask;
     private TextView mtxtRadius;
     List<HashMap<String, String>> places = null;
     private double mlat, mlong;
     public static Geofencemodel GeofenceTOAdd;
     public static boolean  isFlag;
+    boolean isRequestResponse;
 
     private EditText medit;
 View view;
@@ -181,6 +185,8 @@ View view;
             }
         });
 
+
+
         atvPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -196,7 +202,7 @@ View view;
                         .toString();
 
                 if (location != null && !location.equals("")) {
-                    searchLocation=location;
+                    searchLocation = location;
                     new GeocoderTask().execute(location);
                 }
 
@@ -211,8 +217,6 @@ View view;
                                       int before, int count) {
 
                 System.out.println("<<<<<<<<change");
-                placesTask = new PlacesTask();
-                placesTask.execute(s.toString());
             }
 
             @Override
@@ -220,11 +224,46 @@ View view;
                                           int count, int after) {
                 // TODO Auto-generated method stub
             }
+            boolean temp=true;
+            Runnable runnable;
+            String medittext;
+            Handler handler = new Handler();
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(final Editable s) {
                 // TODO Auto-generated method stub
+            currentTimel=System.currentTimeMillis();
+                if(Math.abs(prevtime-currentTimel)>650){
+                    handler.postDelayed(runnable, 650);
+                    prevtime=System.currentTimeMillis();
+                }else{
+
+                    handler.removeCallbacks(runnable);
+
+                }
+
+
+              runnable  = new Runnable() {
+                    @Override
+                    public void run() {
+                        if(s.length()>3) {
+
+
+//  only for first time
+                            placesTask = new PlacesTask();
+                            placesTask.execute(s.toString());
+
+                        }
+                    }
+                };
+
+
+
+
+
+
             }
+
         });
 
 
@@ -267,6 +306,8 @@ View view;
         @Override
         protected String doInBackground(String... place) {
             // For storing data from web service
+
+            Log.d("Tag","calling..........");
             String data = "";
 
             // Obtain browser key from https://code.google.com/apis/console
@@ -451,7 +492,7 @@ View view;
 
         @Override
         protected void onPostExecute(List<HashMap<String, String>> result) {
-
+            isRequestResponse=true;
             String[] from = new String[] { "description" };
             int[] to = new int[] { android.R.id.text1 };
 
