@@ -29,10 +29,9 @@ import com.google.android.gms.location.LocationServices;
 import com.killerrech.Geofence.Constants;
 import com.killerrech.Geofence.GeofenceErrorMessages;
 import com.killerrech.Geofence.GeofenceTransitionsIntentService;
-import com.killerrech.constants.ConstantsForSharedPrefrences;
+
 import com.killerrech.database.TablesController;
 import com.killerrech.model.Geofencemodel;
-import com.killerrech.sharedPrefrences.SharedPrefrence;
 
 import java.util.ArrayList;
 import java.util.List;
