@@ -1,20 +1,9 @@
 package geofence.killerrech.com.GeoAlert;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -39,10 +25,6 @@ public class ManualSearchFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    Location mlocation, location;
-
-    double latitude, longitude;
-    LocationManager locationManager;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -66,7 +48,6 @@ public class ManualSearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private FloatingActionButton currentLocButton;
 
 
     // TODO: Rename and change types and number of parameters
@@ -98,57 +79,39 @@ public class ManualSearchFragment extends Fragment {
         // Inflate the layout for this fragment
 
 
+
         view = inflater.inflate(R.layout.fragment_manual_search, container,
                 false);
 
 
-        googleMap = ((SupportMapFragment) getChildFragmentManager()
+
+        googleMap =    ((SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map)).getMap();
 //                googleMap = ((SupportMapFragment) getChildFragmentManager()
 //                        .findFragmentById(R.id.map)).getMap();
 
 
-        medit = (EditText) view.findViewById(R.id.geofencebutton);
+        medit=(EditText)view.findViewById(R.id.geofencebutton);
 
 
         // Loading map
-        atvPlaces = (AutoCompleteTextView) view.findViewById(R.id.atv_places);
-        mtxtRadius = (TextView) view.findViewById(R.id.txtradius);
+        atvPlaces=(AutoCompleteTextView)view.findViewById(R.id.atv_places);
+        mtxtRadius=(TextView)view.findViewById(R.id.txtradius);
         mseekbar = (SeekBar) view.findViewById(R.id.geofenceseekBar);
-        currentLocButton=(FloatingActionButton)view.findViewById(R.id.locationfab2);
-
-        currentLocButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Location mloc= getLocation();
-                mlat=mloc.getLatitude();
-                mlong=mloc.getLongitude();
-                if ((mlat != 0) && (mlong != 0)) {
-
-                    setGoogleMap(mlat, mlong, 1);
-
-                }
-
-
-            }
-        });
         view.findViewById(R.id.savemanualfab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-            if(mlat!=0.0 && mlong!=0.0) {
-                Log.d("<<<<Loc", mlat + " " + mlong);
-                GeofenceTOAdd = new Geofencemodel();
+
+                GeofenceTOAdd=new Geofencemodel();
                 GeofenceTOAdd.setGeoName(medit.getText().toString());
                 GeofenceTOAdd.setAddress(searchLocation);
-                GeofenceTOAdd.setRadius(radiusProgress + "");
+                GeofenceTOAdd.setRadius(radiusProgress+"");
                 GeofenceTOAdd.setLatitude(mlat);
                 GeofenceTOAdd.setLongitude(mlong);
-                ((AddGeoFence) getActivity()).mGeofencesAdded = true;
-                ((AddGeoFence) getActivity()).addGeofencesButtonHandler(GeofenceTOAdd.getGeofence());
-            }else{
-                Snackbar.make(mseekbar,"Please Add Location",Snackbar.LENGTH_SHORT).show();
-            }
+                ((AddGeoFence)getActivity()).mGeofencesAdded=true;
+                ((AddGeoFence)getActivity()).addGeofencesButtonHandler(GeofenceTOAdd.getGeofence());
+
 
             }
         });
@@ -217,6 +180,7 @@ public class ManualSearchFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
 
 
+
     public void setGoogleMap(double mlat, double mlong, int r) {
         googleMap.clear();
         System.out
@@ -241,30 +205,6 @@ public class ManualSearchFragment extends Fragment {
     }
 
 
-    boolean isGPSEnabled, isNetworkEnabled;
-
-
-
-    public Location getLocation() {
-        this.locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        if ( Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                   return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) ;
-        }else{
-            return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) ;
-
-        }
-    }
-
-
-
-    private boolean isLocationEnabled() {
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
