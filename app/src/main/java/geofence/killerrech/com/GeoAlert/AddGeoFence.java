@@ -276,7 +276,7 @@ public class AddGeoFence extends ActionBarActivity implements
                         addGeoLocation(geofence.getId(),geofence.getLatitude()+"",geofence.getLongitude()+"",geofence.getRadius(),geofence.getAddress(),geofence.getGeoName());
                 System.out.println("-----insert--id"+insertedid);
                 Toast.makeText(this,"Geofence Create",Toast.LENGTH_SHORT).show();
-                Intent mintent = new Intent(this,MainActivity.class
+                Intent mintent = new Intent(this,Settings.class
                 );
                 startActivity(mintent);
                 this.finish();

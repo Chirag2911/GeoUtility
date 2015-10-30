@@ -47,6 +47,13 @@
             android:label="@string/title_activity_add_geo_fence" >
         </activity>
 
+
+        <activity
+            android:name="geofence.killerrech.com.GeoAlert.Settings"
+            android:screenOrientation="portrait" >
+        </activity>
+
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCJCgviS3bWZUegq4FaW1EdCWfTzq7zRjk"/>
