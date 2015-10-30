@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -74,6 +76,7 @@ public class  AutoSearchFragment extends Fragment  {
     public static Geofencemodel GeofenceTOAdd;
     public static boolean  isFlag;
     boolean isRequestResponse;
+    SimpleAdapter adapter;
 
     private EditText medit;
 View view;
@@ -115,6 +118,7 @@ View view;
         }
     }
 
+    Filter filter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -124,6 +128,43 @@ View view;
                     false);
 
         medit=(EditText)view.findViewById(R.id.geofencebutton);
+        atvPlaces=(AutoCompleteTextView)view.findViewById(R.id.atv_places);
+        mtxtRadius=(TextView)view.findViewById(R.id.txtradius);
+        mseekbar = (SeekBar) view.findViewById(R.id.geofenceseekBar);
+
+
+
+        googleMap =    ((SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map)).getMap();
+
+
+        filter = new Filter() {
+            @Override
+            protected void publishResults(CharSequence constraint,
+                                          FilterResults results) {
+            }
+
+            @Override
+            protected Filter.FilterResults performFiltering(CharSequence constraint) {
+                Log.i("Filter",
+                        "Filter:" + constraint + " thread: " + Thread.currentThread());
+                if (constraint != null && constraint.length() > 3) {
+                    Log.i("Filter", "doing a search ..");
+                    new PlacesTask().execute(constraint.toString());
+                }
+                return null;
+            }
+        };
+
+       /* adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line) {
+            public android.widget.Filter getFilter() {
+                return filter;
+            }
+        };
+
+        atvPlaces.setAdapter(adapter);*/
+
 
         view.findViewById(R.id.fab_save_auto).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +177,8 @@ View view;
                 GeofenceTOAdd.setRadius(radiusProgress+"");
                 GeofenceTOAdd.setLatitude(mlat);
                 GeofenceTOAdd.setLongitude(mlong);
+                GeofenceTOAdd.setRadius(mseekbar.getProgress()+"");
+
                 ((AddGeoFence)getActivity()).mGeofencesAdded=true;
                 ((AddGeoFence)getActivity()).addGeofencesButtonHandler(GeofenceTOAdd.getGeofence());
 
@@ -145,15 +188,6 @@ View view;
 
 //                googleMap = ((SupportMapFragment) getChildFragmentManager()
 //                        .findFragmentById(R.id.map)).getMap();
-        atvPlaces=(AutoCompleteTextView)view.findViewById(R.id.atv_places);
-        mtxtRadius=(TextView)view.findViewById(R.id.txtradius);
-        mseekbar = (SeekBar) view.findViewById(R.id.geofenceseekBar);
-
-
-
-        googleMap =    ((SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map)).getMap();
-
 
         mseekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -231,10 +265,12 @@ View view;
 
             @Override
             public void afterTextChanged(final Editable s) {
-                // TODO Auto-generated method stub
+            //     TODO Auto-generated method stub
             currentTimel=System.currentTimeMillis();
-                if(Math.abs(prevtime-currentTimel)>650){
-                    handler.postDelayed(runnable, 650);
+
+
+                if(Math.abs(prevtime-currentTimel)>700){
+                    handler.postDelayed(runnable, 700);
                     prevtime=System.currentTimeMillis();
                 }else{
 
@@ -247,7 +283,9 @@ View view;
                     @Override
                     public void run() {
                         if(s.length()>3) {
+                            System.out.println("=================================================");
 
+                            System.out.println("======================runable");
 
 //  only for first time
                             placesTask = new PlacesTask();
@@ -341,6 +379,8 @@ View view;
 
             try {
                 // Fetching the data from web service in background
+                System.out.println("======================url" + url);
+
                 System.out.println("<<<<<<<<<cha" + url);
                 data = downloadUrl(url);
 
@@ -482,7 +522,7 @@ View view;
                 // Getting the parsed data as a List construct
                 places = placeJsonParser.parse(jObject);
 
-                System.out.println("<<<<<<<<change5" + places);
+                System.out.println("======================places" + places);
 
             } catch (Exception e) {
                 Log.d("Exception", e.toString());
@@ -497,11 +537,30 @@ View view;
             int[] to = new int[] { android.R.id.text1 };
 
             // Creating a SimpleAdapter for the AutoCompleteTextView
-            SimpleAdapter adapter = new SimpleAdapter(getActivity(), result,
+             adapter = new SimpleAdapter(getActivity(), result,
                     android.R.layout.simple_list_item_1, from, to);
-
+//xzcxvc
             // Setting the adapter
             atvPlaces.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+
+           /* int size = result.size();
+
+            if (size > 0) {
+                adapter.clear();
+                Log.i("ADAPTER_SIZE", "" + size);
+                for (int i = 0; i < size; i++) {
+                    adapter.add(result.get(i).get("description"));
+                    Log.i("ADDED", result.get(i).get("description"));
+                }
+                Log.i("UPDATE", "4");
+
+                adapter.notifyDataSetChanged();
+                atvPlaces.showDropDown();
+
+            }*/
+
+
 
         }
     }
