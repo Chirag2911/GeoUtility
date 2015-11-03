@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-
+    android:orientation="vertical">
 
 
     <RelativeLayout
@@ -13,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/ColorPrimary"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tag_geofence_text"
@@ -29,95 +28,169 @@
 
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_gravity="center"
         android:text="Location Name"
-        android:id="@+id/textView" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:padding="30dp">
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
         <TextView
+            android:id="@+id/textViewForProfileIn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+
+
+            android:gravity="center"
+            android:text="@string/setting_notification" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:text="Noti"
+            android:textOff="OFF"
+            android:textOn="On" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile Mode In :"
-            android:id="@+id/textViewForProfileIn" />
-        <Spinner
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinnerProfileIn"
-            android:gravity="right"
-            android:layout_marginLeft="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
 
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginRight="10dp">
 
-    </LinearLayout>
+            <ChekBox
+                android:id="@+id/chek"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+
+                android:text="Enter" />
+
+            <ChekBox
+
+                android:id="@+id/chekexit"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Exit" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#0a2b0a"
-        />
-    <LinearLayout
-        android:orientation="horizontal"
+        android:background="#0a2b0a" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="30dp">
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+
+        android:orientation="horizontal">
+
         <TextView
+            android:id="@+id/textAlram"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+
+
+            android:gravity="center"
+            android:text="@string/setting_notification" />
+
+        <Switch
+            android:id="@+id/switchAlwaram"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:text="Noti"
+            android:textOff="OFF"
+            android:textOn="On" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile Mode In :"
-            android:id="@+id/textViewFForProfileOut" />
-        <Spinner
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinnerProfileOut"
-            android:gravity="right"
-            android:layout_marginLeft="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+
+            android:layout_marginRight="10dp">
+
+            <ChekBox
+
+                android:id="@+id/chekAlaramEntry"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
 
 
+                android:text="Enter" />
 
-            android:layout_gravity="center_horizontal" />
+            <ChekBox
 
-    </LinearLayout>
+                android:id="@+id/chekAlaramExit"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+
+
+                android:text="Exit" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#0a2b0a"
-        />
+        android:background="#0a2b0a" />
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:orientation="horizontal"
         android:padding="30dp">
+
         <TextView
+            android:id="@+id/textViewFForGeoNoti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Geo Notification :"
-            android:id="@+id/textViewFForGeoNoti" />
+            android:text="Geo Notification :" />
+
         <ToggleButton
+            android:id="@+id/toggleButtonForGeoNot"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:id="@+id/toggleButtonForGeoNot"
-            android:gravity="right"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="40dp"
 
 
-            android:layout_gravity="center_horizontal" />
+            android:gravity="right" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#0a2b0a"
-        />
+        android:background="#0a2b0a" />
 
 
 </LinearLayout>

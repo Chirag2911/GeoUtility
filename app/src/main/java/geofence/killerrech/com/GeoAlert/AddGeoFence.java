@@ -1,13 +1,8 @@
 package geofence.killerrech.com.GeoAlert;
 
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -29,7 +24,6 @@ import com.google.android.gms.location.LocationServices;
 import com.killerrech.Geofence.Constants;
 import com.killerrech.Geofence.GeofenceErrorMessages;
 import com.killerrech.Geofence.GeofenceTransitionsIntentService;
-
 import com.killerrech.database.TablesController;
 import com.killerrech.model.Geofencemodel;
 
@@ -73,9 +67,7 @@ public class AddGeoFence extends ActionBarActivity implements
      * Used when requesting to add or remove geofences.
      */
     private PendingIntent mGeofencePendingIntent;
-    Location mlocation,location;
-    double latitude,longitude;
-    LocationManager locationManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,139 +104,10 @@ public class AddGeoFence extends ActionBarActivity implements
         tabs.setViewPager(pager);
 
         buildGoogleApiClient();
-        location=getLocation1();
-        if (location!=null){
-            SharedPrefrence.saveStringSharedPrefernces(this,ConstantsForSharedPrefrences.CURRENT_LATITUDE,latitude+"");
-            SharedPrefrence.saveStringSharedPrefernces(this,ConstantsForSharedPrefrences.CURRENT_LONGITUDE,longitude+"");
-            System.out.println("latitude::" + latitude);
-            System.out.println("longitude::"+longitude);
-
-
-        }
 
 
 
     }
-
-
-
-    boolean isGPSEnabled,isNetworkEnabled;
-    public Location getLocation1() {
-        try {
-            locationManager = (LocationManager) AddGeoFence.this
-                    .getSystemService(LOCATION_SERVICE);
-
-            // getting GPS status
-            isGPSEnabled = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-            // getting network status
-            isNetworkEnabled = locationManager
-                    .isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
-
-            if (!isGPSEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
-            } else {
-
-                if (isGPSEnabled) {
-                    if (location == null) {
-                        locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                5000,
-                                10, new LocationListener() {
-
-                                    @Override
-                                    public void onStatusChanged(String provider, int status, Bundle extras) {
-                                        // TODO Auto-generated method stub
-
-                                    }
-
-                                    @Override
-                                    public void onProviderEnabled(String provider) {
-                                        // TODO Auto-generated method stub
-
-                                    }
-
-                                    @Override
-                                    public void onProviderDisabled(String provider) {
-                                        // TODO Auto-generated method stub
-
-                                    }
-
-                                    @Override
-                                    public void onLocationChanged(Location location) {
-                                        // TODO Auto-generated method stub
-
-                                    }
-                                });
-                        Log.d("GPS", "GPS Enabled");
-                        if (locationManager != null) {
-                            location = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-
-                            if (location != null) {
-                                Toast.makeText(AddGeoFence.this,"GPS location",Toast.LENGTH_SHORT).show();
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
-                        }
-                    }
-                }
-//	            this.canGetLocation = true;
-                if (isNetworkEnabled) {
-                    locationManager.requestLocationUpdates(
-                            LocationManager.NETWORK_PROVIDER,
-                            5000,
-                            10, new LocationListener() {
-
-                                @Override
-                                public void onStatusChanged(String provider, int status, Bundle extras) {
-                                    // TODO Auto-generated method stub
-
-                                }
-
-                                @Override
-                                public void onProviderEnabled(String provider) {
-                                    // TODO Auto-generated method stub
-
-                                }
-
-                                @Override
-                                public void onProviderDisabled(String provider) {
-                                    // TODO Auto-generated method stub
-
-                                }
-
-                                @Override
-                                public void onLocationChanged(Location location) {
-                                    // TODO Auto-generated method stub
-
-                                }
-                            });
-                    Log.d("Network", "Network Enabled");
-                    if (locationManager != null) {
-                        location = locationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-                        if (location != null) {
-                            Toast.makeText(AddGeoFence.this,"GSM location",Toast.LENGTH_SHORT).show();
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                        }
-                    }
-                }
-                // if GPS Enabled get lat/long using GPS Services
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return location;
-    }
-
 
 
     @Override
@@ -272,11 +135,7 @@ public class AddGeoFence extends ActionBarActivity implements
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-
-
-
+        Log.i(TAG, "Connected to GoogleApiClient");
     }
 
     @Override
@@ -397,7 +256,6 @@ public class AddGeoFence extends ActionBarActivity implements
      * @param status The Status returned through a PendingIntent when addGeofences() or
      *               removeGeofences() get called.
      *                   TablesController tbController;
-
      */
 
     TablesController tbController;
@@ -409,15 +267,15 @@ public class AddGeoFence extends ActionBarActivity implements
                 tbController.open();
                 Geofencemodel geofence;
                 if(AutoSearchFragment.isFlag)
-                     geofence= AutoSearchFragment.GeofenceTOAdd;
+                    geofence= AutoSearchFragment.GeofenceTOAdd;
                 else
-                 geofence=ManualSearchFragment.GeofenceTOAdd;
+                    geofence=ManualSearchFragment.GeofenceTOAdd;
 
                 long insertedid=tbController.
                         addGeoLocation(geofence.getId(),geofence.getLatitude()+"",geofence.getLongitude()+"",geofence.getRadius(),geofence.getAddress(),geofence.getGeoName());
                 System.out.println("-----insert--id"+insertedid);
                 Toast.makeText(this,"Geofence Create",Toast.LENGTH_SHORT).show();
-                Intent mintent = new Intent(this,Settings.class
+                Intent mintent = new Intent(this,MainActivity.class
                 );
                 startActivity(mintent);
                 this.finish();
@@ -453,6 +311,5 @@ public class AddGeoFence extends ActionBarActivity implements
         // addGeofences() and removeGeofences().
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
-
 
 }

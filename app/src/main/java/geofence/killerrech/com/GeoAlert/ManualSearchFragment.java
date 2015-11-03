@@ -1,9 +1,18 @@
 package geofence.killerrech.com.GeoAlert;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +50,10 @@ public class ManualSearchFragment extends Fragment {
     LatLng latLng;
     AutoCompleteTextView atvPlaces;
 
+       LocationManager locationManager;
 
+
+    FloatingActionButton currentLocButton;
     private TextView mtxtRadius;
 
     private EditText medit;
@@ -98,23 +110,51 @@ public class ManualSearchFragment extends Fragment {
         atvPlaces=(AutoCompleteTextView)view.findViewById(R.id.atv_places);
         mtxtRadius=(TextView)view.findViewById(R.id.txtradius);
         mseekbar = (SeekBar) view.findViewById(R.id.geofenceseekBar);
+
+
+        currentLocButton=(FloatingActionButton)view.findViewById(R.id.locationfabCurrent);
+
+                        currentLocButton.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                                public void onClick(View v) {
+                                        Location mloc= getLocation();
+                                        mlat=mloc.getLatitude();
+                                        mlong=mloc.getLongitude();
+                                        if ((mlat != 0) && (mlong != 0)) {
+
+                                                        setGoogleMap(mlat, mlong, 1);
+
+
+                        }
+
+
+                                                   }
+                            });
         view.findViewById(R.id.savemanualfab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
                 GeofenceTOAdd=new Geofencemodel();
-                GeofenceTOAdd.setGeoName(medit.getText().toString());
-                GeofenceTOAdd.setAddress(searchLocation);
-                GeofenceTOAdd.setRadius(radiusProgress+"");
-                GeofenceTOAdd.setLatitude(mlat);
-                GeofenceTOAdd.setLongitude(mlong);
-                ((AddGeoFence)getActivity()).mGeofencesAdded=true;
-                ((AddGeoFence)getActivity()).addGeofencesButtonHandler(GeofenceTOAdd.getGeofence());
-
+                if(mlat!=0.0 && mlong!=0.0) {
+                    Log.d("<<<<Loc", mlat + " " + mlong);
+                             GeofenceTOAdd = new Geofencemodel();
+                    GeofenceTOAdd.setGeoName(medit.getText().toString());
+                    GeofenceTOAdd.setAddress(searchLocation);
+                                  GeofenceTOAdd.setRadius(radiusProgress+"");
+                                  GeofenceTOAdd.setRadius(radiusProgress + "");
+                    GeofenceTOAdd.setLatitude(mlat);
+                    GeofenceTOAdd.setLongitude(mlong);
+                                 ((AddGeoFence)getActivity()).mGeofencesAdded=true;
+                             ((AddGeoFence)getActivity()).addGeofencesButtonHandler(GeofenceTOAdd.getGeofence());
+                             ((AddGeoFence) getActivity()).mGeofencesAdded = true;
+                                    ((AddGeoFence) getActivity()).addGeofencesButtonHandler(GeofenceTOAdd.getGeofence());
+                              }else{
+                                 Snackbar.make(mseekbar, "Please Add Location", Snackbar.LENGTH_SHORT).show();
+                              }
 
             }
         });
+
         mseekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -178,6 +218,19 @@ public class ManualSearchFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
+    public Location getLocation() {
+              this.locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                        if ( Build.VERSION.SDK_INT >= 23 &&
+                                ContextCompat.checkSelfPermission( getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                                ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                                       return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) ;
+                    }else{
+                        return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) ;
+
+                           }
+            }
+
 
 
 
