@@ -15,7 +15,7 @@ public class TablesController {
     private SQLiteDatabase database;
 // for setting
     private static final String[] PROJECTION_SETTINGS = new String[] { DBHelper.ID,
-            DBHelper.GEO_ID, DBHelper.PROFILE_MODE_IN,DBHelper.PROFILE_MODE_OUT,DBHelper.GEO_NOTIFICATION};
+            DBHelper.GEO_ID, DBHelper.PROFILE_MODE_IN,DBHelper.PROFILE_MODE_OUT,DBHelper.GEO_NOTIFICATION,DBHelper.GEO_NEARBY_PLACES};
 
 
     //for GeoLoc
@@ -52,19 +52,20 @@ public class TablesController {
         return isOpen;
     }
 // Insert Setting
-  public long addSettings(String geo_id, String profile_in, String profile_out, String geo_notification){
+  public long addSettings(String geo_id, String profile_in, String profile_out, String geo_notification,String nearBy){
       if (!hasSettings(geo_id)){
           ContentValues contentValue = new ContentValues();
           contentValue.put(dbHelper.GEO_ID,geo_id);
           contentValue.put(dbHelper.PROFILE_MODE_IN,profile_in);
           contentValue.put(dbHelper.PROFILE_MODE_OUT,profile_out);
           contentValue.put(dbHelper.GEO_NOTIFICATION, geo_notification);
+          contentValue.put(dbHelper.GEO_NEARBY_PLACES, nearBy);
 
           long id=  database.insert(dbHelper.SETTINGS_TABLE, null, contentValue);
           System.out.println("===========inserted id is:::"+id);
           return id;
       }else {
-          return updateSettings(geo_id,profile_in,profile_out,geo_notification);
+          return updateSettings(geo_id,profile_in,profile_out,geo_notification,nearBy);
       }
 
   }
@@ -111,12 +112,13 @@ public class TablesController {
         return ((cr.getCount()>0))?true:false;
     }
 
-    public long updateSettings(String geo_id, String profile_in, String profile_out, String geo_notification){
+    public long updateSettings(String geo_id, String profile_in, String profile_out, String geo_notification,String nearBy){
             ContentValues contentValue = new ContentValues();
             contentValue.put(dbHelper.GEO_ID,geo_id);
             contentValue.put(dbHelper.PROFILE_MODE_IN,profile_in);
             contentValue.put(dbHelper.PROFILE_MODE_OUT,profile_out);
             contentValue.put(dbHelper.GEO_NOTIFICATION, geo_notification);
+        contentValue.put(dbHelper.GEO_NEARBY_PLACES, nearBy);
 
             long id=  database.update(dbHelper.SETTINGS_TABLE, contentValue, dbHelper.GEO_ID + "= ?", new String[]{geo_id});
             System.out.println("===========updated id is:::"+id);

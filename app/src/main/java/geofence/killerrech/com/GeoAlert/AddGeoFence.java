@@ -30,8 +30,10 @@ import com.killerrech.Geofence.Constants;
 import com.killerrech.Geofence.GeofenceErrorMessages;
 import com.killerrech.Geofence.GeofenceTransitionsIntentService;
 
+import com.killerrech.constants.ConstantsForSharedPrefrences;
 import com.killerrech.database.TablesController;
 import com.killerrech.model.Geofencemodel;
+import com.killerrech.sharedPrefrences.SharedPrefrence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,8 +116,8 @@ public class AddGeoFence extends ActionBarActivity implements
         buildGoogleApiClient();
         location=getLocation1();
         if (location!=null){
-            SharedPrefrence.saveStringSharedPrefernces(this,ConstantsForSharedPrefrences.CURRENT_LATITUDE,latitude+"");
-            SharedPrefrence.saveStringSharedPrefernces(this,ConstantsForSharedPrefrences.CURRENT_LONGITUDE,longitude+"");
+            SharedPrefrence.saveStringSharedPrefernces(this, ConstantsForSharedPrefrences.CURRENT_LATITUDE, latitude + "");
+            SharedPrefrence.saveStringSharedPrefernces(this, ConstantsForSharedPrefrences.CURRENT_LONGITUDE,longitude+"");
             System.out.println("latitude::" + latitude);
             System.out.println("longitude::"+longitude);
 
