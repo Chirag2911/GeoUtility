@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -25,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="SETTINGS"
-            android:textColor="@color/headingtextcolor"
+
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
 
@@ -38,13 +41,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Location Name"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="7dp"
+
         android:orientation="horizontal">
 
         <TextView
@@ -52,45 +60,50 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-
-
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/heading_text"
+            android:textColor="@color/orangeText"
+            android:textStyle="bold"
             android:gravity="center"
             android:text="@string/setting_notification" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/switchNoti"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="5dp"
-            android:text="Noti"
+
             android:textOff="OFF"
             android:textOn="On" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
+            android:layout_marginTop="25dp"
 
             android:layout_marginRight="10dp">
 
             <CheckBox
-                android:id="@+id/chek"
-                android:layout_width="wrap_content"
+                android:id="@+id/chekNofiEnter"
+                android:layout_width="0dp"
                 android:layout_height="20dp"
+                android:layout_weight="1"
                 android:layout_marginRight="5dp"
-
+                android:textColor="@color/grey"
                 android:text="Enter" />
 
             <CheckBox
 
-                android:id="@+id/chekexit"
-                android:layout_width="wrap_content"
+                android:id="@+id/chekNotiexit"
+                android:layout_width="0dp"
                 android:layout_height="20dp"
+                android:layout_weight="1"
+                android:textColor="@color/grey"
+
                 android:text="Exit" />
         </LinearLayout>
 
@@ -100,13 +113,18 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#0a2b0a" />
+        android:background="@color/colorAccent"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="7dp"
         android:orientation="horizontal">
 
         <TextView
@@ -114,11 +132,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-
-
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/heading_text"
+            android:textColor="@color/orangeText"
+            android:textStyle="bold"
             android:gravity="center"
-            android:text="@string/setting_notification" />
+            android:text="@string/setting_alarm" />
 
         <Switch
             android:id="@+id/switchAlwaram"
@@ -127,37 +146,38 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="5dp"
-            android:text="Noti"
+
             android:textOff="OFF"
-            android:textOn="On" />
+            android:textOn="On"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
+            android:layout_marginTop="25dp"
 
             android:layout_marginRight="10dp">
 
             <CheckBox
 
                 android:id="@+id/chekAlaramEntry"
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="5dp"
-
-
+                android:textColor="@color/grey"
                 android:text="Enter" />
 
             <CheckBox
 
                 android:id="@+id/chekAlaramExit"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="20dp"
+                android:layout_weight="1"
+                android:textColor="@color/grey"
 
-
-                android:text="Exit" />
+                android:text="Exit"/>
         </LinearLayout>
 
     </RelativeLayout>
@@ -165,79 +185,19 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#0a2b0a" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/textViewFForGeoNoti"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Geo Notification :" />
-
-        <ToggleButton
-            android:id="@+id/toggleButtonForGeoNot"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="40dp"
-
-
-            android:gravity="right" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#0a2b0a" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/textViewss"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Near By Places"
-            android:layout_weight="1"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-       android:layout_width="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_height="wrap_content"
-       android:layout_gravity="bottom|end"
-       android:src="@android:drawable/ic_input_add" />
-
-
-    </LinearLayout>
-
-    <GridView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:layout_margin="3dp"
-
-        android:id="@+id/gridview">
-
-    </GridView>
+        android:background="@color/colorAccent"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="5dp">
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp">
 
         <TextView
             android:id="@+id/textViewForProfil"
@@ -246,7 +206,9 @@
             android:text="Profile when enter:"
             android:textStyle="bold|italic"
             android:gravity="center_vertical"
-
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/heading_text"
+            android:textColor="@color/orangeText"
             android:layout_weight="1"/>
 
         <TextView
@@ -281,7 +243,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="5dp">
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="7dp">
 
         <TextView
             android:id="@+id/textViewForProfilOut"
@@ -290,7 +255,9 @@
             android:text="Profile when exit:"
             android:textStyle="bold|italic"
             android:gravity="center_vertical"
-
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/heading_text"
+            android:textColor="@color/orangeText"
             android:layout_weight="1"/>
 
         <TextView
@@ -317,6 +284,73 @@
 
     </LinearLayout>
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"/>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="15dp"
+    android:gravity="center"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="7dp"
+   >
+    <TextView
+        android:id="@+id/textViewss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Near By Places"
+        android:textSize="@dimen/heading_text"
+        android:textColor="@color/blue"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:background="@color/grey"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="7dp"
+        android:layout_alignParentBottom="true"
+        android:padding="3dp"
+        />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="50dp"
+        android:layout_marginRight="3dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|end"
+        android:layout_alignParentRight="true"
+
+        android:src="@android:drawable/ic_input_add" />
+
+
+</RelativeLayout>
+
+
+
+
+
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:numColumns="2"
+
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="7dp"
+
+        android:id="@+id/gridview">
+
+    </GridView>
 
 
 

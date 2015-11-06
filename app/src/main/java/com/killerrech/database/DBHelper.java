@@ -22,7 +22,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String GEO_ID ="geo_id"; //forgien key
     public static final String PROFILE_MODE_IN ="profile_mode_in";
     public static final String PROFILE_MODE_OUT ="profile_mode_out";
-    public static final String GEO_NOTIFICATION ="geo_notification";
+    public static final String NOTIFICATION_ENTER ="notification_enter";
+    public static final String NOTIFICATION_EXIT = "notification_exit";
+    public static final String ALARM_ENTER ="alarm_enter";
+    public static final String ALARM_EXIT = "alarm_exit";
+
     public static final String GEO_NEARBY_PLACES ="geo_nearby";
 
 
@@ -67,7 +71,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 + GEO_ID + " TEXT not null,"
                 + PROFILE_MODE_IN + " TEXT,"
                 + PROFILE_MODE_OUT + " TEXT,"
-                + GEO_NOTIFICATION + " TEXT,"
+                + NOTIFICATION_ENTER + " TEXT,"
+                + NOTIFICATION_EXIT + " TEXT,"
+                + ALARM_ENTER + " TEXT,"
+                + ALARM_EXIT + " TEXT,"
                 + GEO_NEARBY_PLACES + " TEXT );";
         db.execSQL(CREATE_SETTINGS_TABLE);
 

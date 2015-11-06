@@ -7,5 +7,6 @@
         <!-- Default screen margins, per the Android Design guidelines. -->
 
         <dimen name="nav_drawer_width">260dp</dimen>
+    <dimen name="heading_text">17sp</dimen>
 
 </resources>

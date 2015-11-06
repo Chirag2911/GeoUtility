@@ -15,7 +15,8 @@ public class TablesController {
     private SQLiteDatabase database;
 // for setting
     private static final String[] PROJECTION_SETTINGS = new String[] { DBHelper.ID,
-            DBHelper.GEO_ID, DBHelper.PROFILE_MODE_IN,DBHelper.PROFILE_MODE_OUT,DBHelper.GEO_NOTIFICATION,DBHelper.GEO_NEARBY_PLACES};
+            DBHelper.GEO_ID, DBHelper.PROFILE_MODE_IN,DBHelper.PROFILE_MODE_OUT,DBHelper.NOTIFICATION_ENTER,
+        DBHelper.NOTIFICATION_EXIT,DBHelper.ALARM_ENTER,DBHelper.ALARM_EXIT,DBHelper.GEO_NEARBY_PLACES};
 
 
     //for GeoLoc
@@ -52,20 +53,25 @@ public class TablesController {
         return isOpen;
     }
 // Insert Setting
-  public long addSettings(String geo_id, String profile_in, String profile_out, String geo_notification,String nearBy){
+  public long addSettings(String geo_id, String profile_in, String profile_out, String notification_enter,
+                          String notification_exit,String alarm_enter,String alarm_exit,String nearBy){
       if (!hasSettings(geo_id)){
           ContentValues contentValue = new ContentValues();
           contentValue.put(dbHelper.GEO_ID,geo_id);
           contentValue.put(dbHelper.PROFILE_MODE_IN,profile_in);
           contentValue.put(dbHelper.PROFILE_MODE_OUT,profile_out);
-          contentValue.put(dbHelper.GEO_NOTIFICATION, geo_notification);
+          contentValue.put(dbHelper.NOTIFICATION_ENTER, notification_enter);
+          contentValue.put(dbHelper.NOTIFICATION_EXIT, notification_exit);
+          contentValue.put(dbHelper.ALARM_ENTER, alarm_enter);
+          contentValue.put(dbHelper.ALARM_EXIT, alarm_exit);
+
           contentValue.put(dbHelper.GEO_NEARBY_PLACES, nearBy);
 
           long id=  database.insert(dbHelper.SETTINGS_TABLE, null, contentValue);
           System.out.println("===========inserted id is:::"+id);
           return id;
       }else {
-          return updateSettings(geo_id,profile_in,profile_out,geo_notification,nearBy);
+          return updateSettings(geo_id,profile_in,profile_out,notification_enter,notification_exit,alarm_enter,alarm_exit,nearBy);
       }
 
   }
@@ -112,12 +118,16 @@ public class TablesController {
         return ((cr.getCount()>0))?true:false;
     }
 
-    public long updateSettings(String geo_id, String profile_in, String profile_out, String geo_notification,String nearBy){
+    public long updateSettings(String geo_id, String profile_in, String profile_out, String notification_enter,
+                               String notification_exit,String alarm_enter,String alarm_exit,  String nearBy){
             ContentValues contentValue = new ContentValues();
             contentValue.put(dbHelper.GEO_ID,geo_id);
             contentValue.put(dbHelper.PROFILE_MODE_IN,profile_in);
             contentValue.put(dbHelper.PROFILE_MODE_OUT,profile_out);
-            contentValue.put(dbHelper.GEO_NOTIFICATION, geo_notification);
+        contentValue.put(dbHelper.NOTIFICATION_ENTER, notification_enter);
+        contentValue.put(dbHelper.NOTIFICATION_EXIT, notification_exit);
+        contentValue.put(dbHelper.ALARM_ENTER, alarm_enter);
+        contentValue.put(dbHelper.ALARM_EXIT, alarm_exit);
         contentValue.put(dbHelper.GEO_NEARBY_PLACES, nearBy);
 
             long id=  database.update(dbHelper.SETTINGS_TABLE, contentValue, dbHelper.GEO_ID + "= ?", new String[]{geo_id});

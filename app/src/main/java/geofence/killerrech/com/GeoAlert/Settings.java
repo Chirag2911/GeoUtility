@@ -8,21 +8,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
+import com.killerrech.adapter.DialogAdapter;
 import com.killerrech.adapter.SettingsAdapter;
+import com.killerrech.constants.ConstantsForSharedPrefrences;
 import com.killerrech.database.DBHelper;
 import com.killerrech.database.TablesController;
 import com.killerrech.model.SettingsModel;
+import com.killerrech.sharedPrefrences.SharedPrefrence;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,7 +32,8 @@ public class Settings extends ActionBarActivity {
     TablesController tbController;
     TextView profile_modeIn;
     TextView profile_modeOut;
-    ToggleButton geo_notification;
+    CheckBox checkbox_enter_notification,checkbox_exit_notification,checkbox_enter_alarm,checkbox_exit_alarm;
+    Switch mSwitchForNotication,mSwitchForAlarm;
     ImageButton imageButtonForProfileIn,imageButtonForProfileOut;
     final CharSequence[] array = {"Silent","Meeting", "General","None"};
 
@@ -46,6 +48,7 @@ public class Settings extends ActionBarActivity {
             "Banks","Hotels","Hospitals"};
     GridView gridView;
     SettingsAdapter adapter;
+    DialogAdapter dialogAdapter;
     ArrayList<SettingsModel> mNearByField=new ArrayList<>();
     ArrayList<SettingsModel> mDialogList=new ArrayList<>();
 
@@ -71,10 +74,32 @@ public class Settings extends ActionBarActivity {
                 selectProfileDialog(2,getIndexOf(profile_modeOut.getText().toString()));
             }
         });
-        geo_notification=(ToggleButton)findViewById(R.id.toggleButtonForGeoNot);
+        checkbox_enter_notification=(CheckBox)findViewById(R.id.chekNofiEnter);
+        checkbox_exit_notification=(CheckBox)findViewById(R.id.chekNotiexit);
+        checkbox_enter_alarm=(CheckBox)findViewById(R.id.chekAlaramEntry);
+        checkbox_exit_alarm=(CheckBox)findViewById(R.id.chekAlaramExit);
+
+        mSwitchForNotication=(Switch)findViewById(R.id.switchNoti);
+        mSwitchForAlarm=(Switch)findViewById(R.id.switchAlwaram);
+        mSwitchForAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPrefrence.saveBooleanSharedPrefernces(Settings.this, ConstantsForSharedPrefrences.IS_ALARM_SET,isChecked);
+            }
+        });
+
+        mSwitchForNotication.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPrefrence.saveBooleanSharedPrefernces(Settings.this, ConstantsForSharedPrefrences.IS_NOTIFICATION_SET,isChecked);
+            }
+        });
+        mSwitchForAlarm.setChecked(SharedPrefrence.getBooleanSharedPrefernces(Settings.this, ConstantsForSharedPrefrences.IS_ALARM_SET));
+        mSwitchForNotication.setChecked(SharedPrefrence.getBooleanSharedPrefernces(Settings.this,ConstantsForSharedPrefrences.IS_NOTIFICATION_SET));
         Cursor cr=tbController.getGeoSettings(1 + "");
         gridView=(GridView)findViewById(R.id.gridview);
         adapter=new SettingsAdapter(this,mNearByField);
+        dialogAdapter=new DialogAdapter(this,mDialogList);
         gridView.setAdapter(adapter);
 
 
@@ -82,7 +107,11 @@ public class Settings extends ActionBarActivity {
             cr.moveToFirst();
             profile_modeIn.setText(array[Integer.parseInt(cr.getString(cr.getColumnIndex(DBHelper.PROFILE_MODE_IN)))]);
             profile_modeOut.setText(array[Integer.parseInt(cr.getString(cr.getColumnIndex(DBHelper.PROFILE_MODE_OUT)))]);
-            geo_notification.setChecked(Boolean.parseBoolean(cr.getString(cr.getColumnIndex(DBHelper.GEO_NOTIFICATION))));
+            checkbox_enter_notification.setChecked(Boolean.parseBoolean(cr.getString(cr.getColumnIndex(DBHelper.NOTIFICATION_ENTER))));
+            checkbox_exit_notification.setChecked(Boolean.parseBoolean(cr.getString(cr.getColumnIndex(DBHelper.NOTIFICATION_EXIT))));
+            checkbox_enter_alarm.setChecked(Boolean.parseBoolean(cr.getString(cr.getColumnIndex(DBHelper.ALARM_ENTER))));
+            checkbox_exit_alarm.setChecked(Boolean.parseBoolean(cr.getString(cr.getColumnIndex(DBHelper.ALARM_EXIT))));
+
             initialiseList(cr.getString(cr.getColumnIndex(DBHelper.GEO_NEARBY_PLACES)));
 
 
@@ -172,6 +201,7 @@ public class Settings extends ActionBarActivity {
     }
 
     private void initialiseDialogList() {
+        mDialogList.clear();
         if (mNearByField.size()>0) {
             for (int i = 0; i < places.length; i++) {
                 boolean isActive=false;
@@ -238,7 +268,10 @@ public class Settings extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         String nearby=getNearBy();
-        long insertedid= tbController.addSettings(1+"",getIndexOf(profile_modeIn.getText().toString())+"",getIndexOf(profile_modeOut.getText().toString())+"",geo_notification.isChecked()+"",nearby);
+        long insertedid= tbController.addSettings(1+"",getIndexOf(profile_modeIn.getText().toString())+"",getIndexOf(profile_modeOut.getText().toString())+"", checkbox_enter_notification.isChecked()+""
+                ,checkbox_exit_notification.isChecked()+"",
+                checkbox_enter_alarm.isChecked()+""
+                ,checkbox_exit_alarm.isChecked()+"",nearby);
         System.out.println("======================inserted at" + insertedid);
 
         super.onBackPressed();
@@ -267,110 +300,17 @@ public class Settings extends ActionBarActivity {
         // set title
         alertDialogBuilder.setTitle("Select Things you want to find");
         alertDialogBuilder.setView(view);
-        Button btn1=(Button)view.findViewById(R.id.button1);
-        Button btn2=(Button)view.findViewById(R.id.button2);
-        Button btn3=(Button)view.findViewById(R.id.button3);
-        Button btn4=(Button)view.findViewById(R.id.button4);
-        final ImageView imageView1=(ImageView)view.findViewById(R.id.imageView1);
-        final ImageView imageView2=(ImageView)view.findViewById(R.id.imageView2);
-        final ImageView imageView3=(ImageView)view.findViewById(R.id.imageView3);
-        final ImageView imageView4=(ImageView)view.findViewById(R.id.imageView4);
 
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               boolean active= mDialogList.get(0).isActivated();
-                active=!active;
-                mDialogList.get(0).setIsActivated(active);
-                if (active){
-                    imageView1.setVisibility(View.VISIBLE);
-                    mNearByField.add(mDialogList.get(0));
-                }else {
-                    imageView1.setVisibility(View.GONE);
-                    for (int i=0;i<mNearByField.size();i++) {
-                        if (mNearByField.get(i).getName().equalsIgnoreCase(mDialogList.get(0).getName())){
-                            mNearByField.remove(i);
-                            break;
-                        }
-                    }
-                }
+        GridView grid =(GridView)view.findViewById(R.id.gridViewForDailog);
+        grid.setAdapter(dialogAdapter);
+        dialogAdapter.notifyDataSetChanged();
 
-            }
-        });
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean active= mDialogList.get(1).isActivated();
-                active=!active;
-                mDialogList.get(1).setIsActivated(active);
-                if (active){
-                    imageView2.setVisibility(View.VISIBLE);
-                    mNearByField.add(mDialogList.get(1));
-                }else {
-                    imageView2.setVisibility(View.GONE);
-                    for (int i=0;i<mNearByField.size();i++) {
-                        if (mNearByField.get(i).getName().equalsIgnoreCase(mDialogList.get(1).getName())){
-                            mNearByField.remove(i);
-                            break;
-                        }
-                    }
-                }
-
-            }
-        });
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean active= mDialogList.get(2).isActivated();
-                active=!active;
-                mDialogList.get(2).setIsActivated(active);
-                if (active){
-                    imageView3.setVisibility(View.VISIBLE);
-                    mNearByField.add(mDialogList.get(2));
-                }else {
-                    imageView3.setVisibility(View.GONE);
-                    for (int i=0;i<mNearByField.size();i++) {
-                        if (mNearByField.get(i).getName().equalsIgnoreCase(mDialogList.get(2).getName())){
-                            mNearByField.remove(i);
-                            break;
-                        }
-                    }
-                }
-
-            }
-        });
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean active= mDialogList.get(3).isActivated();
-                active=!active;
-                mDialogList.get(3).setIsActivated(active);
-                if (active){
-                    imageView4.setVisibility(View.VISIBLE);
-                    mNearByField.add(mDialogList.get(3));
-                }else {
-                    imageView4.setVisibility(View.GONE);
-                    for (int i=0;i<mNearByField.size();i++) {
-                        if (mNearByField.get(i).getName().equalsIgnoreCase(mDialogList.get(3).getName())){
-                            mNearByField.remove(i);
-                            break;
-                        }
-                    }
-                }
-
-            }
-        });
-
-
-
-        // set dialog message
         alertDialogBuilder
 
                 .setCancelable(false)
                 .setPositiveButton("Done",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, close
-                        // current activity
+
                         adapter.notifyDataSetChanged();
 
 
@@ -392,6 +332,35 @@ public class Settings extends ActionBarActivity {
         alertDialog.show();
     }
 
+    public void removeItem(int index){
+        mNearByField.remove(index);
+        adapter.notifyDataSetChanged();
+        initialiseDialogList();
+
+    }
+
+    public void removeFromNearBy(int index){
+        mDialogList.get(index).setIsActivated(false);
+
+        for (int i=0;i<mNearByField.size();i++) {
+            if (mNearByField.get(i).getName().equalsIgnoreCase(mDialogList.get(index).getName())){
+                mNearByField.remove(i);
+                break;
+            }
+        }
+
+    }
+
+    public void addNearBy(int index){
+        mDialogList.get(index).setIsActivated(true);
+                mNearByField.add(mDialogList.get(index));
+    }
+
+
+
+    public void notifyMNearBy(){
+        adapter.notifyDataSetChanged();
+    }
 
 
 }

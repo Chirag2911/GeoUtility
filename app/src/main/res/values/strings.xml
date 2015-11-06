@@ -62,13 +62,7 @@
 
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
     <string name="setting_notification">Notification</string>
-
-
-
-
-
-
-
+    <string name="setting_alarm">Ring Alarm</string>
 
 
 </resources>
