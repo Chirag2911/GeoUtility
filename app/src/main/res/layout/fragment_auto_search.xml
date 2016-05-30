@@ -28,16 +28,53 @@
 
             >
 
-            <com.killerrech.Utility.CustomAutoCompleteTextView
-                android:id="@+id/atv_places"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
+
+
+            <FrameLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/ico_searchbar"
-                android:drawableLeft="@drawable/ico_search"
-                android:drawablePadding="5dp"
-                android:hint="Enter Places"
-                android:padding="8dp"
-                android:singleLine="true"/>
+                android:padding="2dp"
+
+                >
+
+                <com.killerrech.Utility.DelayAutoCompleteTextView
+                    android:id="@+id/atv_places"
+                    android:inputType="textCapSentences"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingRight="10dp"
+                    android:drawableLeft="@drawable/ico_search"
+                    android:drawablePadding="5dp"
+                    android:padding="8dp"
+
+                    android:background="#00000000"
+                    android:textColor="@color/textColorSecondry"
+                    android:hint="@string/Enter_Places"
+                    android:textColorHint="@color/textColorSecondry"
+                    android:imeOptions="flagNoExtractUi|actionSearch"/>
+                <ProgressBar
+                    android:id="@+id/pb_loading_indicator"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="8dp"
+                    android:visibility="gone"/>
+            </FrameLayout>
+
+
+            <!--<AutoCompleteTextView-->
+                <!--android:id="@+id/atv_places"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:drawableLeft="@drawable/ico_search"-->
+                <!--android:drawablePadding="5dp"-->
+                <!--android:textColor="@color/textColorSecondry"-->
+                <!--android:hint="@string/Enter_Places"-->
+                <!--android:textColorHint="@color/textColorSecondry"-->
+                <!--android:padding="8dp"-->
+                <!--android:completionThreshold="3"-->
+                <!--android:singleLine="true"/>-->
 
         </LinearLayout>
 
@@ -62,6 +99,7 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
+        android:background="@color/transparent_white"
 
         android:orientation="vertical">
 
@@ -70,8 +108,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:textColor="#ffffff"
-            android:text="Please set the radius of the geofence"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/textColorSecondry"
+            android:text="@string/set_radius"
             android:textSize="15dp"/>
 
         <TextView
@@ -79,8 +118,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="1"
-            android:textColor="#ffffff"/>
+            android:text="1 Km"
+            android:textColor="@color/textColorSecondry"/>
 
         <SeekBar
             android:id="@+id/geofenceseekBar"
@@ -100,10 +139,10 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
-            android:hint="Enter the Name of geofence GeoFence"
-            android:textColorHint="#ffffff"
+            android:hint="@string/Enter_place_name"
+            android:textColorHint="@color/textColorSecondry"
             android:padding="5dp"
-            android:textColor="#ffffff"/>
+            android:textColor="@color/textColorSecondry"/>
 
     </LinearLayout>
 
@@ -111,9 +150,9 @@
         android:id="@+id/fab_save_auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="5dp"
 
-        android:src="#11111111"
+        android:src="@drawable/save_white_36x36"
         app:layout_anchor="@+id/mlineargeofenceplaces"
         app:layout_anchorGravity="end|top"/>
 </android.support.design.widget.CoordinatorLayout>

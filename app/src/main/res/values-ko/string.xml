@@ -1,0 +1,140 @@
+<resources>
+    <string name="app_name">GeoAlert</string>
+
+    <string name="action_settings">
+설정</string>
+    <string name="dialog_nearby">
+지오 펜스 에서 선택 장소 입력</string>
+    <string name="action_search">
+수색</string>
+
+    <string name="SETTING">환경</string>
+
+    <!-- navigation drawer item labels  -->
+
+    <string name="save">
+구하다</string>
+    <string name="location_name">위치 이름</string>
+    <string name="Near_by">장소 근처에</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="title_activity_add_geo_fence">지오 펜스 추가</string>
+
+
+    <!-- Buttons strings -->
+    <string name="add_geofences">
+지오 펜스 추가</string>
+    <string name="remove_geofences">
+지오 펜스 를 제거</string>
+
+    <string name="geofences_added">
+지오 펜스 추가</string>
+    <string name="geofences_removed">지오 펜스 제거</string>
+
+    <!-- Error strings -->
+    <string name="not_connected">
+GoogleApiClient 은 아직 연결 하지 않습니다. 다시 시도하십시오.</string>
+    <string name="geofence_not_available">지오 펜스 서비스는 현재 사용할 수 없습니다</string>
+    <string name="geofence_too_many_geofences">
+앱 이 너무 많은 지오 펜스 를 등록 했다</string>
+    <string name="geofence_too_many_pending_intents">
+        당신은 addGeofences 에 너무 많은 PendingIntents 를 제공 한 () 호출
+    </string>
+    <string name="unknown_geofence_error">
+
+알 수없는 오류가 :지오 펜스 서비스는 현재 사용할 수 없습니다
+    </string>
+    <string name="geofence_transition_invalid_type">
+
+지오 펜스 전환 오류 : 잘못된 전환 유형 % 1 $ D    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">체결</string>
+    <string name="geofence_transition_exited">
+종료</string>
+    <string name="unknown_geofence_transition">알 수없는 전환</string>
+
+    <string name="geofence_transition_notification_text">
+응용 프로그램 에 반환 통지를 클릭</string>
+    <string name="setting_notification">공고</string>
+
+    <string name="setting_alarm">링 경보</string>
+    <string name="heading_nearby">가까이에</string>
+
+    <string name="auto_search">
+자동 검색</string>
+    <string name="current_location">
+현재 위치 추가</string>
+
+
+    <string name="Done">끝난</string>
+    <string name="No">아니
+</string>
+
+    <!--   write the validation  -->
+
+    <string name="snackbar_loc">
+위치를 선택하세요</string>
+
+    <string name="Geofence">GeoFence</string>
+
+    <string name="Cancel">
+취소</string>
+    <string name="Ok">그래</string>
+    <string name="gps_network_not_enabled">GPS는 장치 에 사용할 수 없습니다. 당신은 그것을 사용 하시겠습니까?</string>
+
+    <string name="network_not_enabled">네트워크 를 사용할 수 없습니다.</string>
+    <string name="open_settings">오픈 설정</string>
+    <string name="Geofence_create">
+지오 펜스 가 성공적으로 만들어</string>
+    <string name="set_radius">
+지오 펜스 의반경 을 설정 주세요</string>
+
+    <string name="Enter_Places">
+장소 를 입력</string>
+    <string name="Enter_place_name">지오 펜스 지오 펜스 의 이름을 입력합니다</string>
+    <string name="Edit">
+편집</string>
+    <string name="delete">
+지우다</string>
+    <string name="Show_me">보여줘</string>
+    <string name="Setting_save">
+성공적으로 저장 설정</string>
+    <string name="profile_silent">조용한</string>
+    <string name="profile_meeting">모임</string>
+    <string name="profile_genral">
+일반</string>
+    <string name="profile_NONE">
+없음</string>
+    <string name="silent">조용한</string>
+    <string name="Profile_eneter">
+입력 할 때 프로필 :</string>
+    <string name="Profile_exit">
+때 출구 프로필 :</string>
+    <string name="Network_slow">네트워크 는 다시 편지 시도하십시오 느</string>
+
+    <string name="Geofence_notcreate">
+뭔가 잘못 다시 편지를 하려고 갔다</string>
+
+    <string name="emptylist">지오 펜싱 의 추가 버튼을 누릅니다</string>
+
+
+    <string name="open_location_settings">GPS 사용</string>
+    <string name="place_marker">
+장소 마커</string>
+    <string name="toast_add_location">
+위치 를 추가하는 \'+ \' 아이콘 을 누릅니다</string>
+    <string name="toast_choose_tab">위치를 추가하기위한 어떤 탭을 선택합니다</string>
+    <string name="toast_auto_search">상단의 검색 위치 , 하단에 반경과 이름을 설정하고 \ 를 눌러 저장 우측 중간 에 아이콘 \" 저장 "</string>
+
+    <string name="toast_place_marker">
+스크롤 지도로 위치 설정 </string>
+    <string name="toast_current_location">
+\ 을 클릭하여 현재 위치를 설정 하면 왼쪽 상단 에 아이콘 " \ 를 탐색 "
+ </string>
+    <string name="snackbar_name">맨 아래에있는 지오 펜스 의 이름 을 보냅니다</string>
+
+
+
+</resources>

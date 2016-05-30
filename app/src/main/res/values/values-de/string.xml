@@ -1,0 +1,123 @@
+<resources>
+    <string name="app_name">GeoAlert</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="dialog_nearby">Wählen Sie die Orte an Geofence geben</string>
+    <string name="action_search">Suche</string>
+    <string name="drawer_open">Öffnen</string>
+    <string name="drawer_close">Nah dran</string>
+    <string name="SETTING">Rahmen</string>
+
+    <!-- navigation drawer item labels  -->
+
+
+
+    <string name="save">sparen</string>
+    <string name="location_name">
+Name des Ortes</string>
+    <string name="Near_by">
+In der Nähe von Orte</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="title_activity_add_geo_fence">In GeoFence</string>
+
+
+    <!-- Buttons strings -->
+    <string name="add_geofences">In geofences</string>
+    <string name="remove_geofences">
+geofences entfernen</string>
+
+    <string name="geofences_added">
+geofences hinzugefügt</string>
+    <string name="geofences_removed">geofences entfernt</string>
+
+    <!-- Error strings -->
+    <string name="not_connected">
+GoogleApiClient nicht noch verbunden ist. Versuch es noch einmal.</string>
+    <string name="geofence_not_available">Geofence -Dienst ist nicht verfügbar</string>
+    <string name="geofence_too_many_geofences">
+Ihre Anwendung hat zu viele geofences registriert</string>
+    <string name="geofence_too_many_pending_intents">
+        Sie haben zu viele PendingIntents den addGeofences vorgesehen () Aufruf
+    </string>
+    <string name="unknown_geofence_error">
+        Unbekannter Fehler : Die Geofence -Service ist momentan nicht verfügbar
+    </string>
+    <string name="geofence_transition_invalid_type">
+        Geofence Gangs Fehler: ungültige Übergangstyp % 1 $ d
+    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">eingetragen</string>
+    <string name="geofence_transition_exited">verlassen
+</string>
+    <string name="unknown_geofence_transition">Unknown Transition</string>
+
+    <string name="geofence_transition_notification_text">Klicken Sie auf Benachrichtigung an den App zurück</string>
+    <string name="setting_notification">Mitteilung</string>
+
+    <string name="setting_alarm">Ring Alarm</string>
+    <string name="heading_nearby">Hier in der Nähe</string>
+
+    <string name="auto_search">
+Auto-Suche</string>
+    <string name="current_location">Fügen Sie Aktueller Standort</string>
+
+
+    <string name="Done">
+Fertig</string>
+    <string name="No">
+Nein</string>
+
+    <!--   write the validation  -->
+
+    <string name="snackbar_loc">
+Bitte wählen Sie den Speicherort </string>
+    <string name="snackbar_name">
+Bitte schreiben Sie den Namen GeoFence</string>
+
+    <string name="Geofence">GeoFence</string>
+
+    <string name="Cancel">Absagen</string>
+    <string name="Ok">OK</string>
+    <string name="gps_network_not_enabled">
+GPS ist in Ihrem Gerät deaktiviert. Möchten Sie es zu aktivieren ?</string>
+    <string name="open_location_settings">Goto Einstellungen Page To GPS aktivieren
+</string>
+    <string name="network_not_enabled">
+Netzwerk ist nicht verfügbar.</string>
+    <string name="open_settings">
+Einstellungen öffnen</string>
+
+
+
+    <string name="Geofence_create">
+Geofence erstellt Erfolgreich</string>
+    <string name="set_radius">
+Bitte stellen Sie den Radius des Geofence</string>
+
+    <string name="Enter_Places">
+Geben Sie Places</string>
+    <string name="Enter_place_name">Geben Sie den Namen des Geofence GeoFence</string>
+    <string name="Edit">
+Bearbeiten</string>
+    <string name="delete">
+Löschen</string>
+    <string name="Show_me">Zeig es mir</string>
+    <string name="Setting_save">
+Einstellung zu speichern Erfolgreich</string>
+    <string name="profile_silent">
+silent-</string>
+    <string name="profile_meeting">Sitzung</string>
+    <string name="profile_genral">General</string>
+    <string name="profile_NONE">
+Keine</string>
+    <string name="silent">
+silent-</string>
+    <string name="Profile_eneter">Profil , wenn ein:</string>
+    <string name="Profile_exit">Profil , wenn Ausgang :</string>
+
+
+</resources>

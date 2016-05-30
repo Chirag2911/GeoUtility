@@ -29,15 +29,24 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        if(position == 0) // if the position is 0 we are returning the First tab
-        {
-            AutoSearchFragment tab1 = new AutoSearchFragment();
-            return tab1;
-        }
-        else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
-        {
-            ManualSearchFragment tab2 = new ManualSearchFragment();
-            return tab2;
+        switch (position) {
+
+            case 0:
+                AutoSearchFragment tab1 = new AutoSearchFragment();
+                return tab1;
+
+            case 1:
+                PlaceMarkerFragment tab2 = new PlaceMarkerFragment();
+                return tab2;
+
+            case 2:
+                ManualSearchFragment tab3 = new ManualSearchFragment();
+                return tab3;
+
+
+            default:
+                return  null;
+
         }
 
 

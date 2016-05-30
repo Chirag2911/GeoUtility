@@ -1,24 +1,20 @@
 package geofence.killerrech.com.GeoAlert;
 
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Filter;
 import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -30,60 +26,45 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.killerrech.Utility.PlaceJSONParser;
-import com.killerrech.database.TablesController;
+import com.killerrech.Utility.DelayAutoCompleteTextView;
+import com.killerrech.adapter.PlacesAutoCompleteAdapter;
 import com.killerrech.model.Geofencemodel;
 
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class  AutoSearchFragment extends Fragment  {
+public class AutoSearchFragment extends Fragment implements PlacesAutoCompleteAdapter.HideKeyBoard {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    int radiusProgress;
+    int radiusProgress = 1;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private boolean flag = false;
     private SeekBar mseekbar;
     GoogleMap googleMap;
     MarkerOptions markerOptions;
-    int radius;
     private String searchLocation;
     LatLng latLng;
-    AutoCompleteTextView atvPlaces;
-    PlacesTask placesTask;
-    double prevtime,currentTimel;
+    DelayAutoCompleteTextView atvPlaces;
 
-    ParserTask parserTask;
     private TextView mtxtRadius;
     List<HashMap<String, String>> places = null;
     private double mlat, mlong;
-    public static Geofencemodel GeofenceTOAdd;
-    public static boolean  isFlag;
+    public static boolean isFlag;
     boolean isRequestResponse;
     SimpleAdapter adapter;
 
     private EditText medit;
-View view;
+    View view;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    PlacesAutoCompleteAdapter myAdapter;
 
 
     // TODO: Rename and change types and number of parameters
@@ -102,12 +83,7 @@ View view;
 
     }
 
-
-
-
-    /***** Sets up the map if it is possible to do so *****/
-
-
+    List<HashMap<String, String>> mlist = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,76 +94,86 @@ View view;
         }
     }
 
-    Filter filter;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-            view = inflater.inflate(R.layout.fragment_auto_search, container,
-                    false);
+        view = inflater.inflate(R.layout.fragment_auto_search, container,
+                false);
 
-        medit=(EditText)view.findViewById(R.id.geofencebutton);
-        atvPlaces=(AutoCompleteTextView)view.findViewById(R.id.atv_places);
-        mtxtRadius=(TextView)view.findViewById(R.id.txtradius);
+        medit = (EditText) view.findViewById(R.id.geofencebutton);
+        atvPlaces = (DelayAutoCompleteTextView) view.findViewById(R.id.atv_places);
+        mtxtRadius = (TextView) view.findViewById(R.id.txtradius);
         mseekbar = (SeekBar) view.findViewById(R.id.geofenceseekBar);
 
+        myAdapter = new PlacesAutoCompleteAdapter(getActivity(),this);
 
 
-        googleMap =    ((SupportMapFragment) getChildFragmentManager()
+        atvPlaces.setAdapter(myAdapter);
+        atvPlaces.setThreshold(3);
+
+
+        atvPlaces.setLoadingIndicator(
+                (android.widget.ProgressBar) view.findViewById(R.id.pb_loading_indicator));
+
+        googleMap = ((SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map)).getMap();
-
-
-        filter = new Filter() {
-            @Override
-            protected void publishResults(CharSequence constraint,
-                                          FilterResults results) {
-            }
-
-            @Override
-            protected Filter.FilterResults performFiltering(CharSequence constraint) {
-                Log.i("Filter",
-                        "Filter:" + constraint + " thread: " + Thread.currentThread());
-                if (constraint != null && constraint.length() > 3) {
-                    Log.i("Filter", "doing a search ..");
-                    new PlacesTask().execute(constraint.toString());
-                }
-                return null;
-            }
-        };
-
-       /* adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line) {
-            public android.widget.Filter getFilter() {
-                return filter;
-            }
-        };
-
-        atvPlaces.setAdapter(adapter);*/
 
 
         view.findViewById(R.id.fab_save_auto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String mGeoFencename = medit.getText().toString();
+                if (mlat != 0.0 && mlong != 0.0) {
+                    if (!mGeoFencename.equals(null) && !mGeoFencename.equals("")) {
 
-                isFlag=true;
-                GeofenceTOAdd=new Geofencemodel();
-                GeofenceTOAdd.setGeoName(medit.getText().toString());
-                GeofenceTOAdd.setAddress(searchLocation);
-                GeofenceTOAdd.setRadius(radiusProgress+"");
-                GeofenceTOAdd.setLatitude(mlat);
-                GeofenceTOAdd.setLongitude(mlong);
-                GeofenceTOAdd.setRadius(mseekbar.getProgress()+"");
+                        final SaveGeofence msaveGeofenceTask = new SaveGeofence();
+                        msaveGeofenceTask.execute(mGeoFencename);
 
-                ((AddGeoFence)getActivity()).mGeofencesAdded=true;
-                ((AddGeoFence)getActivity()).addGeofencesButtonHandler(GeofenceTOAdd.getGeofence());
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (msaveGeofenceTask.getStatus() == AsyncTask.Status.RUNNING) {
+                                    msaveGeofenceTask.cancel(true);
+
+
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((AddGeoFence) getActivity()).hidepDialog();
+
+                                            Snackbar.make(mtxtRadius, getResources().getString(R.string.Network_slow), Snackbar.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        }, 30000);
+                    } else {
+                        Snackbar.make(atvPlaces, getResources().getString(R.string.snackbar_name), Snackbar.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Snackbar.make(atvPlaces, getResources().getString(R.string.snackbar_loc), Snackbar.LENGTH_SHORT).show();
+                }
 
 
             }
         });
 
-//                googleMap = ((SupportMapFragment) getChildFragmentManager()
-//                        .findFragmentById(R.id.map)).getMap();
 
         mseekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -207,18 +193,19 @@ View view;
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 // TODO Auto-generated method stub
-                radiusProgress=progress;
-                mtxtRadius.setText("" + progress + "Km");
+                if (progress > 0) {
+                    radiusProgress = progress;
+                    mtxtRadius.setText("" + radiusProgress + "Km");
 
 
-                if ((mlat != 0) && (mlong != 0)) {
+                    if ((mlat != 0) && (mlong != 0)) {
 
-                    setGoogleMap(mlat, mlong, progress);
+                        setGoogleMap(mlat, mlong, radiusProgress);
 
+                    }
                 }
             }
         });
-
 
 
         atvPlaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -228,12 +215,7 @@ View view;
                                     int position, long id) {
                 // TODO Auto-generated method stub
 
-                System.out.println("getlocation"
-                        + places.get(position).get("description")
-                        .toString());
-
-                String location = places.get(position).get("description")
-                        .toString();
+                String location = (String) parent.getItemAtPosition(position);
 
                 if (location != null && !location.equals("")) {
                     searchLocation = location;
@@ -242,78 +224,11 @@ View view;
 
             }
         });
-        radius = Integer.parseInt(mtxtRadius.getText().toString());
-
-        atvPlaces.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-
-                System.out.println("<<<<<<<<change");
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-                // TODO Auto-generated method stub
-            }
-            boolean temp=true;
-            Runnable runnable;
-            String medittext;
-            Handler handler = new Handler();
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-            //     TODO Auto-generated method stub
-            currentTimel=System.currentTimeMillis();
-
-
-                if(Math.abs(prevtime-currentTimel)>700){
-                    handler.postDelayed(runnable, 700);
-                    prevtime=System.currentTimeMillis();
-                }else{
-
-                    handler.removeCallbacks(runnable);
-
-                }
-
-
-              runnable  = new Runnable() {
-                    @Override
-                    public void run() {
-                        if(s.length()>3) {
-                            System.out.println("=================================================");
-
-                            System.out.println("======================runable");
-
-//  only for first time
-                            placesTask = new PlacesTask();
-                            placesTask.execute(s.toString());
-
-                        }
-                    }
-                };
-
-
-
-
-
-
-            }
-
-        });
-
-
-        // Loading map
 
 
         // Changing map type
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        // googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        // googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        // googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        // googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+
 
         // Showing / hiding your current location
         googleMap.setMyLocationEnabled(true);
@@ -336,232 +251,43 @@ View view;
         // lets place some 10 random markers
         System.out.println("enter in map");
 
-    return view;
+        return view;
 
-}
-    class PlacesTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... place) {
-            // For storing data from web service
-
-            Log.d("Tag","calling..........");
-            String data = "";
-
-            // Obtain browser key from https://code.google.com/apis/console
-            String key = "key=" + "AIzaSyDAf-VXPDt_XGBB-8LvBQuN_-rkTnX708k";
-
-            String input = "";
-
-            try {
-                input = "input=" + URLEncoder.encode(place[0], "utf-8");
-
-                System.out.println("<<<<<<<<<change2" + input);
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            }
-
-            // place type to be searched
-            String types = "types=geocode";
-
-            // Sensor enabled
-            String sensor = "sensor=false";
-
-            // Building the parameters to the web service
-            String parameters = input + "&" + types + "&" + sensor + "&" + key;
-
-            // Output format
-            String output = "json";
-
-            // Building the url to the web service
-            String url = "https://maps.googleapis.com/maps/api/place/autocomplete/"
-                    + output + "?" + parameters;
-
-            try {
-                // Fetching the data from web service in background
-                System.out.println("======================url" + url);
-
-                System.out.println("<<<<<<<<<cha" + url);
-                data = downloadUrl(url);
-
-                System.out.println("<<<<<<<<<change3" + data);
-            } catch (Exception e) {
-                System.out.println("<<<<<<<<<change4" + e);
-                Log.d("Background Task", e.toString());
-            }
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            // Creating ParserTask
-
-            System.out.println("<<<<<<<change121" + result);
-            parserTask = new ParserTask();
-
-            // Starting Parsing the JSON string returned by Web Service
-            parserTask.execute(result);
-        }
     }
 
-//    public void setlocationcoordinate(String loc_name) {
-//        String response = null;
-//        try {
-//
-//            loc_name = getSpiltString(loc_name);
-//            System.out.println("getjsonstring" + loc_name);
-//            response = getJson("https://maps.googleapis.com/maps/api/place/textsearch/json?query="
-//                    + loc_name + "&key=AIzaSyA1Z5DYzIxn10Sv0B6l3rM0tWsB2fKKqA0");
-//            System.out.println("getJson" + response);
-//
-//        } catch (Exception e) {
-//            // TODO Auto-generated catch block
-//            System.out.println("getJsonexception" + response);
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            JSONObject json = new JSONObject(response);
-//            JSONArray jarry = json.getJSONArray("results");
-//            JSONObject mjosnobj = jarry.getJSONObject(0);
-//            mlat = mjosnobj.getJSONObject("geometry").getJSONObject("location")
-//                    .getDouble("lat");
-//            mlong = mjosnobj.getJSONObject("geometry")
-//                    .getJSONObject("location").getDouble("lng");
-//
-//        } catch (JSONException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//
-//    }
 
-//    public String getJson(String url) {
-//        StringBuilder builder = new StringBuilder();
-//        HttpClient client = new DefaultHttpClient();
-//        HttpGet httpGet = new HttpGet(url);
-//        try {
-//            HttpResponse response = client.execute(httpGet);
-//            StatusLine statusLine = response.getStatusLine();
-//            int statusCode = statusLine.getStatusCode();
-//            if (statusCode == 200) {
-//                HttpEntity entity = response.getEntity();
-//                InputStream content = entity.getContent();
-//                BufferedReader reader = new BufferedReader(
-//                        new InputStreamReader(content));
-//                String line;
-//                while ((line = reader.readLine()) != null) {
-//                    builder.append(line);
-//                }
-//            }
-//        } catch (ClientProtocolException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return builder.toString();
-//
-//    }
-
-    private String downloadUrl(String strUrl) throws IOException {
-        String data = "";
-        InputStream iStream = null;
-        HttpURLConnection urlConnection = null;
-        try {
-            URL url = new URL(strUrl);
-
-            // Creating an http connection to communicate with url
-            urlConnection = (HttpURLConnection) url.openConnection();
-
-            // Connecting to url
-            urlConnection.connect();
-
-            // Reading data from url
-            iStream = urlConnection.getInputStream();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    iStream));
-
-            StringBuffer sb = new StringBuffer();
-
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-            data = sb.toString();
-
-            br.close();
-
-        } catch (Exception e) {
-            Log.d("Exception while  ", e.toString());
-        } finally {
-            iStream.close();
-            urlConnection.disconnect();
-        }
-        return data;
-    }
-
-    /** A class to parse the Google Places in JSON format */
-    private class ParserTask extends
-            AsyncTask<String, Integer, List<HashMap<String, String>>> {
-
-        JSONObject jObject;
-
+    private class SaveGeofence extends AsyncTask<String, String, String> {
         @Override
-        protected List<HashMap<String, String>> doInBackground(
-                String... jsonData) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ((AddGeoFence) getActivity()).showpDialog();
+            isFlag = true;
 
-            PlaceJSONParser placeJsonParser = new PlaceJSONParser();
+//            ManualSearchFragment.GeofenceTOAdd.setRadius(mseekbar.getProgress() + "");
 
-            try {
-                jObject = new JSONObject(jsonData[0]);
-
-                // Getting the parsed data as a List construct
-                places = placeJsonParser.parse(jObject);
-
-                System.out.println("======================places" + places);
-
-            } catch (Exception e) {
-                Log.d("Exception", e.toString());
-            }
-            return places;
         }
 
         @Override
-        protected void onPostExecute(List<HashMap<String, String>> result) {
-            isRequestResponse=true;
-            String[] from = new String[] { "description" };
-            int[] to = new int[] { android.R.id.text1 };
-
-            // Creating a SimpleAdapter for the AutoCompleteTextView
-             adapter = new SimpleAdapter(getActivity(), result,
-                    android.R.layout.simple_list_item_1, from, to);
-//xzcxvc
-            // Setting the adapter
-            atvPlaces.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-
-           /* int size = result.size();
-
-            if (size > 0) {
-                adapter.clear();
-                Log.i("ADAPTER_SIZE", "" + size);
-                for (int i = 0; i < size; i++) {
-                    adapter.add(result.get(i).get("description"));
-                    Log.i("ADDED", result.get(i).get("description"));
-                }
-                Log.i("UPDATE", "4");
-
-                adapter.notifyDataSetChanged();
-                atvPlaces.showDropDown();
-
-            }*/
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
 
 
+        }
 
+        @Override
+        protected String doInBackground(String... params) {
+
+            ManualSearchFragment.GeofenceTOAdd = new Geofencemodel();
+            ManualSearchFragment.GeofenceTOAdd.setGeoName(params[0]);
+            ManualSearchFragment.GeofenceTOAdd.setAddress(searchLocation);
+            ManualSearchFragment.GeofenceTOAdd.setRadius(radiusProgress + "");
+            ManualSearchFragment.GeofenceTOAdd.setLatitude(mlat);
+            ManualSearchFragment.GeofenceTOAdd.setLongitude(mlong);
+            ((AddGeoFence) getActivity()).mGeofencesAdded = true;
+            ((AddGeoFence) getActivity()).addGeofencesButtonHandler(ManualSearchFragment.GeofenceTOAdd.getGeofence());
+
+
+            return null;
         }
     }
 
@@ -575,6 +301,7 @@ View view;
 
             try {
                 // Getting a maximum of 3 Address that matches the input text
+
                 addresses = geocoder.getFromLocationName(locationName[0], 2);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -607,7 +334,7 @@ View view;
                     mlat = address.getLatitude();
                     mlong = address.getLongitude();
 
-                    setGoogleMap(mlat, mlong, radius);
+                    setGoogleMap(mlat, mlong, radiusProgress);
 
 
                 }
@@ -615,7 +342,7 @@ View view;
 
                 flag = false;
 
-                setGoogleMap(mlat, mlong, radius);
+                setGoogleMap(mlat, mlong, radiusProgress);
                 // googleMap.clear();
 
             }
@@ -639,7 +366,20 @@ View view;
                 .strokeColor(Color.BLACK).fillColor(0x30ff0000).strokeWidth(2));
         // Locate the first location
         // if(i==0)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+        float zoomLevel = 14;
+
+        if (r > 5 && r < 24) {
+            zoomLevel = zoomLevel - (r / 12 + 3);
+        } else if (r < 6) {
+            zoomLevel = zoomLevel - (r / 12 + 2);
+
+        } else {
+            zoomLevel = zoomLevel - (r / 12 + 2);
+
+        }
+
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
         // googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
         // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom);
@@ -672,7 +412,6 @@ View view;
     public String getSpiltString(String name) {
         String cname = null;
         String a[] = name.split(" ");
-        System.out.println("getjsonaarray" + a);
         cname = a[0];
         for (int i = 0; i < a.length; i++) {
             if (i > 0)
@@ -682,6 +421,13 @@ View view;
         return cname;
     }
 
-
+    @Override
+    public void hideKeyBoard() {
+        try {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            if (medit != null)
+                imm.hideSoftInputFromWindow(medit.getWindowToken(), 0);
+        }catch (Exception e){}}
 
 }

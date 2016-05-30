@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    >
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+
+            android:layout_below="@+id/mlinear" >
+            <ImageView
+                android:id="@+id/pin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/pinimage" />
+            </fragment>
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/mlineargeofenceplaces"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:background="@color/transparent_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtadd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/set_radius"
+            android:textColor="@color/textColorSecondry"
+            android:textSize="@dimen/textSecondrySize" />
+
+        <TextView
+            android:id="@+id/txtradius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="1 Km"
+            android:textColor="@color/textColorSecondry" />
+
+        <SeekBar
+            android:id="@+id/geofenceseekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:max="50"
+            android:maxHeight="2dp"
+            android:progress="1"
+            android:progressDrawable="@drawable/progressseekbar"
+            android:thumb="@drawable/ico_pin"
+            android:thumbOffset="2dp" />
+
+        <EditText
+            android:id="@+id/geofencebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/Enter_place_name"
+            android:padding="5dp"
+            android:textColor="@color/textColorSecondry"
+            android:textColorHint="@color/textColorSecondry"
+            android:textSize="@dimen/textSecondrySize" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/savemanualfab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginRight="5dp"
+        android:src="@drawable/save_white_36x36"
+        app:layout_anchor="@+id/mlineargeofenceplaces"
+        app:layout_anchorGravity="end|top"
+
+        />
+
+
+</android.support.design.widget.CoordinatorLayout>

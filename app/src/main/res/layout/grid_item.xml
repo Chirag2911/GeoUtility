@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/orange"
+        android:layout_margin="1dp"
+        android:id="@+id/relative"
+
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Banks"
+            android:id="@+id/buttonForGridItem"
+            android:textColor="@color/white"
+            android:background="@color/orange"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/imageViewForCancel"
+            android:layout_toStartOf="@+id/imageViewForCancel"
+           />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageViewForCancel"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

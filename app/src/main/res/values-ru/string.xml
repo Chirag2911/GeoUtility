@@ -1,0 +1,151 @@
+<resources>
+    <string name="app_name">GeoAlert</string>
+
+    <string name="action_settings">
+настройки</string>
+    <string name="dialog_nearby">Выберите места на Geofence введите</string>
+    <string name="action_search">
+Поиск</string>
+    <string name="SETTING">
+установка</string>
+
+    <!-- navigation drawer item labels  -->
+
+    <string name="save">
+спасти</string>
+    <string name="location_name">
+Название местоположения</string>
+    <string name="Near_by">
+Рядом местами</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_add_geo_fence">Добавить GeoFence</string>
+
+
+    <!-- Buttons strings -->
+    <string name="add_geofences">
+Добавить геозон</string>
+    <string name="remove_geofences">
+Удалить геозон</string>
+
+    <string name="geofences_added">
+Геозоны добавил</string>
+    <string name="geofences_removed">
+Геозоны удалены</string>
+
+    <!-- Error strings -->
+    <string name="not_connected">
+GoogleApiClient еще не подключен . Попробуй еще раз.</string>
+    <string name="geofence_not_available">
+Геозоны услуга не доступна в настоящее время</string>
+    <string name="geofence_too_many_geofences">
+Ваше приложение зарегистрировало слишком много геозон</string>
+    <string name="geofence_too_many_pending_intents">
+
+Вы предоставили слишком много PendingIntents к addGeofences () вызов
+    </string>
+    <string name="unknown_geofence_error">
+
+Неизвестная ошибка : служба Геозоны сейчас недоступна
+    </string>
+    <string name="geofence_transition_invalid_type">
+
+Геозоны ошибка переход : неверный тип перехода % 1 $ d
+    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">
+Вошел</string>
+    <string name="geofence_transition_exited">Exited</string>
+    <string name="unknown_geofence_transition">
+Неизвестный Переход</string>
+
+    <string name="geofence_transition_notification_text">Нажмите уведомление , чтобы вернуться к приложение
+</string>
+    <string name="setting_notification">
+уведомление</string>
+
+    <string name="setting_alarm">
+Кольцо сигнализации</string>
+    <string name="heading_nearby">Рядом, поблизости</string>
+
+    <string name="auto_search">
+Автоматический поиск</string>
+    <string name="current_location">Добавить Текущее местоположение</string>
+
+
+    <string name="Done">
+Готово</string>
+    <string name="No">
+Нет</string>
+
+    <!--   write the validation  -->
+
+    <string name="snackbar_loc">
+Выберите местоположение </string>
+
+    <string name="Geofence">GeoFence</string>
+
+    <string name="Cancel">
+Отмена</string>
+    <string name="Ok">ОК</string>
+    <string name="gps_network_not_enabled">
+GPS- отключен в вашем устройстве. Хотите , чтобы включить его?</string>
+    <string name="network_not_enabled">
+Сеть недоступна.</string>
+    <string name="open_settings">
+открыть настройки</string>
+
+
+    <string name="Geofence_create">Геозоны успешно создан</string>
+    <string name="set_radius">Пожалуйста, установите радиус Geofence</string>
+
+    <string name="Enter_Places">Введите мест</string>
+    <string name="Enter_place_name">
+Введите имя GeoFence</string>
+    <string name="Edit">
+редактировать</string>
+    <string name="delete">
+Удалить</string>
+    <string name="Show_me">
+Покажи мне</string>
+    <string name="Setting_save">
+Установка Сохранить Успешно</string>
+    <string name="profile_silent">тихий</string>
+    <string name="profile_meeting">
+Встреча</string>
+    <string name="profile_genral">Генеральная</string>
+    <string name="profile_NONE">
+Ни одной</string>
+    <string name="silent">тихий</string>
+    <string name="Profile_eneter">Профиль при входе :</string>
+    <string name="Profile_exit">
+Профиль когда выход :</string>
+
+    <string name="Network_slow">Сеть медленно попробуйте еще раз письмо</string>
+
+    <string name="Geofence_notcreate">Что-то пошло не так , попробуйте еще раз письмо</string>
+
+    <string name="emptylist">Нажмите кнопку Добавить для Geofencing</string>
+
+    <string name="open_location_settings">Включение GPS</string>
+    <string name="place_marker">Место Маркер
+</string>
+    <string name="toast_add_location">
+Пожалуйста нажмите на значок \ " + \ " для добавления Расположение</string>
+    <string name="toast_choose_tab">
+Выберите любую вкладку для добавления местоположения
+</string>
+    <string name="toast_auto_search">
+Поиск местонахождение вверху , установите радиус и имя внизу и сохранить его , нажав \ "Сохранить \" значок в правом середине </string>
+
+    <string name="toast_place_marker">
+Установить местонахождение с помощью прокрутки карты</string>
+    <string name="toast_current_location">
+Установите текущее местоположение , нажав \ " ориентироваться \" значок в верхнем левом углу</string>
+    <string name="snackbar_name">
+Пожалуйста, напишите имя GeoFence на дне</string>
+
+
+
+</resources>
