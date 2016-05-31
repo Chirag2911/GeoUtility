@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -250,17 +251,16 @@ public class ManualSearchFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public Location getLocation() {
+    private Location getLocation() {
         this.locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        } else {
-            return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (BaseActivity.baseContext != null)
+                (BaseActivity.baseContext).getCallingPermission();
+            return null;
         }
+        return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+
+
     }
 
 
