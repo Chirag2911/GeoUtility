@@ -1,0 +1,147 @@
+<resources>
+    <string name="app_name">GeoAlert</string>
+
+
+    <string name="action_settings">Ajustes</string>
+    <string name="dialog_nearby">vSelect Places at Geofence enter</string>
+    <string name="action_search">Search</string>
+
+    <string name="SETTING">Setting</string>
+
+    <!-- navigation drawer item labels  -->
+
+
+    <string name="save">ahorrar</string>
+    <string name="location_name">Nombre del lugar</string>
+    <string name="Near_by">
+Lugares cercanos</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="title_activity_add_geo_fence">Añadir geocerca</string>
+
+
+    <!-- Buttons strings -->
+    <string name="add_geofences">
+Añadir geocercas</string>
+    <string name="remove_geofences">
+Retire geocercas</string>
+
+    <string name="geofences_added">
+Geofences añadido</string>
+    <string name="geofences_removed">
+Geofences removidos</string>
+
+    <!-- Error strings -->
+    <string name="not_connected">
+GoogleApiClient sin embargo conectado . Inténtalo de nuevo.</string>
+    <string name="geofence_not_available">
+Servicio Geofence no está disponible ahora</string>
+    <string name="geofence_too_many_geofences">Su aplicación ha registrado demasiados geocercas</string>
+    <string name="geofence_too_many_pending_intents">
+       Usted ha proporcionado demasiados PendingIntents a las addGeofences () llamada
+    </string>
+    <string name="unknown_geofence_error">
+
+Error desconocido : el servicio Geofence no está disponible ahora
+    </string>   
+    <string name="geofence_transition_invalid_type">
+     Error transición Geofence : inválido tipo de transición % 1 $ d
+    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">
+Entró</string>
+    <string name="geofence_transition_exited">
+Salió</string>
+    <string name="unknown_geofence_transition">Desconocido Transición</string>
+
+    <string name="geofence_transition_notification_text">
+Haga clic en la notificación para volver a la aplicación</string>
+    <string name="setting_notification">Notification</string>
+
+    <string name="setting_alarm">alarma anillo</string>
+    <string name="heading_nearby">
+Cerca</string>
+
+    <string name="auto_search">
+Auto búsqueda</string>
+    <string name="current_location">
+Añadir Ubicación actual</string>
+
+
+    <string name="Done">
+Hecho</string>
+    <string name="No">No</string>
+
+    <!--   write the validation  -->
+
+    <string name="snackbar_loc">Por favor seleccione la ubicación</string>
+
+    <string name="Geofence">GeoFence</string>
+
+    <string name="Cancel">
+Cancelar</string>
+    <string name="Ok">Okay
+</string>
+    <string name="gps_network_not_enabled">
+GPS está desactivada en su dispositivo. ¿Le gustaría que le permita ?</string>
+<string name="network_not_enabled">La red no está disponible.</string>
+    <string name="open_settings">
+Configuración abierta</string>
+
+
+
+    <string name="Geofence_create">
+Geofence creado Sucessfully
+</string>
+    <string name="set_radius">
+Por favor, ajuste el radio de la geocerca</string>
+
+    <string name="Enter_Places">
+Introduzca Lugares</string>
+    <string name="Enter_place_name">Introduzca el Nombre de geocerca </string>
+    <string name="Edit">
+Editar</string>
+    <string name="delete">
+Borrar</string>
+    <string name="Show_me">
+Muéstrame</string>
+    <string name="Setting_save">Configuración Guardar éxito</string>
+    <string name="profile_silent">Silencio</string>
+    <string name="profile_meeting">
+Cita</string>
+    <string name="profile_genral">General</string>
+    <string name="profile_NONE">Ninguno</string>
+    <string name="silent">Silencio</string>
+    <string name="Profile_eneter">
+Perfil cuando escriba:</string>
+    <string name="Profile_exit">
+Perfil de salida cuando :</string>
+
+
+    <string name="Network_slow">
+La red es lenta por favor, inténtalo de nuevo letra</string>
+
+    <string name="Geofence_notcreate">Algo salió mal vuelve a intentarlo Carta</string>
+
+    <string name="emptylist">Pulse el botón añadir para GeoFencing</string>
+
+    <string name="open_location_settings">
+activar el GPS</string>
+    <string name="place_marker">
+marcador de lugares</string>
+    <string name="toast_add_location">Por favor, pulse el icono \'+\' para añadir la ubicación</string>
+    <string name="toast_choose_tab">Elija cualquier pestaña para añadir la ubicación</string>
+    <string name="toast_auto_search">
+Buscar ubicación en la parte superior , ajuste el radio y el nombre en la parte inferior y guardarlo pulsando \ " guardar \ " icono en la mitad derecha </string>
+
+    <string name="toast_place_marker">Configurar la ubicación de desplazamiento de mapa </string>
+    <string name="toast_current_location">
+Establecer la ubicación actual haciendo clic en \" navegar \" icono en la parte superior izquierda </string>
+    <string name="snackbar_name">
+Por favor, escriba el nombre de geocerca en la parte inferior</string>
+
+
+
+</resources>

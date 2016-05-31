@@ -1,0 +1,141 @@
+<resources>
+    <string name="app_name">GeoAlert</string>
+
+
+    <string name="action_settings">
+[設定]</string>
+    <string name="dialog_nearby">ジオフェンスでの選択場所を入力します。</string>
+    <string name="action_search">
+サーチ</string>
+    <string name="SETTING">設定</string>
+
+    <!-- navigation drawer item labels  -->
+
+
+    <string name="save">セーブ</string>
+    <string name="location_name">
+ロケーション名</string>
+    <string name="Near_by">
+場所によって近く</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="title_activity_add_geo_fence">
+ジオフェンスを追加</string>
+
+
+    <!-- Buttons strings -->
+    <string name="add_geofences">
+geofencesを追加</string>
+    <string name="remove_geofences">
+geofencesを削除</string>
+
+    <string name="geofences_added">
+Geofences追加します</string>
+    <string name="geofences_removed">
+Geofencesは削除</string>
+
+    <!-- Error strings -->
+    <string name="not_connected">
+GoogleApiClientにはまだ接続されていません。再試行する。</string>
+    <string name="geofence_not_available">
+ジオフェンスのサービスが利用できません</string>
+    <string name="geofence_too_many_geofences">あなたのアプリがあまりにも多くのgeofencesを登録しています</string>
+    <string name="geofence_too_many_pending_intents">
+
+あなたがaddGeofencesにあまりにも多くのPendingIntentsを提供している（ ）の呼び出し
+    </string>
+    <string name="unknown_geofence_error">
+不明なエラーが：ジオフェンスのサービスが利用できません    </string>
+    <string name="geofence_transition_invalid_type">
+
+ジオフェンス遷移エラー：無効な遷移型％ 1 $ dの    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">入力されました</string>
+    <string name="geofence_transition_exited">
+終了しました</string>
+    <string name="unknown_geofence_transition">
+未知の変遷</string>
+
+    <string name="geofence_transition_notification_text">
+アプリに戻り、通知をクリックします</string>
+    <string name="setting_notification">お知らせ</string>
+
+    <string name="setting_alarm">リングアラーム</string>
+    <string name="heading_nearby">
+近所</string>
+
+    <string name="auto_search">
+自動検索</string>
+    <string name="current_location">現在の場所の追加</string>
+
+
+    <string name="Done">
+完了</string>
+    <string name="No">
+ノー</string>
+
+    <!--   write the validation  -->
+
+    <string name="snackbar_loc">
+場所を選択してください </string>
+
+    <string name="Geofence">GeoFence</string>
+
+    <string name="Cancel">キャンセル</string>
+    <string name="Ok">Ok</string>
+    <string name="gps_network_not_enabled">
+GPSは、お使いのデバイスで無効になっています。あなたはそれを有効にしますか？</string>
+
+    <string name="network_not_enabled">ネットワークが利用できません。</string>
+    <string name="open_settings">オープン設定</string>
+
+
+    <string name="Geofence_create">ジオフェンスはSucessfullyを作成しました</string>
+    <string name="set_radius">ジオフェンスの半径を設定してください</string>
+
+    <string name="Enter_Places">場所を入力します。</string>
+    <string name="Enter_place_name">
+ジオフェンスの名前を入力します。</string>
+    <string name="Edit">編集</string>
+    <string name="delete">
+削除</string>
+    <string name="Show_me">見せて</string>
+    <string name="Setting_save">
+成功保存の設定</string>
+    <string name="profile_silent">サイレント</string>
+    <string name="profile_meeting">会議
+</string>
+    <string name="profile_genral">一般</string>
+    <string name="profile_NONE">なし
+</string>
+    <string name="silent">
+サイレント</string>
+    <string name="Profile_eneter">
+入力したときにプロフィール：</string>
+    <string name="Profile_exit">
+終了のプロフィール：</string>
+
+
+    <string name="Network_slow">ネットワークは再び手紙お試しください遅いです</string>
+
+    <string name="Geofence_notcreate">何かが間違って再び手紙を試して行きました</string>
+    <string name="emptylist">ジオフェンシングのための追加ボタンを押します</string>
+
+
+    <string name="open_location_settings">GPSを有効にします</string>
+    <string name="place_marker">
+場所マーカー</string>
+    <string name="toast_add_location">
+場所を追加するための \' + \' アイコンを押してください。</string>
+    <string name="toast_choose_tab">場所を追加するための任意のタブを選択します。</string>
+    <string name="toast_auto_search">上部の検索場所、下部に半径と名前を設定し、\を押して保存し、右半ばにあるアイコン"\を保存」 </string>
+
+    <string name="toast_place_marker">スクロール地図で設定された場所 </string>
+    <string name="toast_current_location">
+\をクリックして、現在の位置を設定すると、左上のアイコン"\を移動します」</string>
+    <string name="snackbar_name">下部のジオフェンスの名前を書いてください</string>
+
+
+</resources>

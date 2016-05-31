@@ -27,6 +27,8 @@ import java.util.HashMap;
  */
 public final class Constants {
 
+    public static final int ADD_GEOFENCE_REQUEST = 234;
+
     private Constants() {
     }
 

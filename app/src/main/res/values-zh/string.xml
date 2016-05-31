@@ -1,0 +1,134 @@
+<resources>
+    <string name="app_name">GeoAlert</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">
+搜索</string>
+    <string name="dialog_nearby">
+在地理栅栏选择位置进入</string>
+    <string name="action_search">
+搜索</string>
+
+    <string name="SETTING">
+环境</string>
+
+        <string name="save">保存</string>
+    <string name="location_name">
+地点名称</string>
+    <string name="Near_by">
+附近邻居</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="title_activity_add_geo_fence">加入栅栏</string>
+
+
+    <!-- Buttons strings -->
+    <string name="add_geofences">
+添加geofences</string>
+    <string name="remove_geofences">
+删除geofences</string>
+
+    <string name="geofences_added">
+加入Geofences</string>
+    <string name="geofences_removed">
+Geofences删除</string>
+
+    <!-- Error strings -->
+    <string name="not_connected">
+GoogleApiClient没有尚未连接。再试一次</string>
+    <string name="geofence_not_available">
+地理栅栏服务目前不可用</string>
+    <string name="geofence_too_many_geofences">
+您的应用程序已经注册了太多geofences</string>
+    <string name="geofence_too_many_pending_intents">
+
+你提供太多PendingIntents到addGeofences （ ）调用
+    </string>
+    <string name="unknown_geofence_error">
+
+未知错误：地理栅栏服务目前不可用    </string>
+    <string name="geofence_transition_invalid_type">
+地理栅栏转换错误：无效的转换类型％ 1 $ D    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">进入</string>
+    <string name="geofence_transition_exited">已退出</string>
+    <string name="unknown_geofence_transition">未知的转换</string>
+
+    <string name="geofence_transition_notification_text">
+点击通知返回到应用程序</string>
+    <string name="setting_notification">
+通知</string>
+
+    <string name="setting_alarm">环警报</string>
+    <string name="heading_nearby">附近</string>
+
+    <string name="auto_search">
+自动搜索</string>
+    <string name="current_location">添加您现在的位置</string>
+
+
+    <string name="Done">做完
+</string>
+    <string name="No">没有
+</string>
+
+    <!--   write the validation  -->
+
+    <string name="snackbar_loc">
+请选择位置</string>
+
+    <string name="Geofence">GeoFence</string>
+
+    <string name="Cancel">取消</string>
+    <string name="Ok">好</string>
+    <string name="gps_network_not_enabled">
+GPS是您的设备被禁用。你想启用它？</string>
+    <string name="network_not_enabled">
+网络不可用。</string>
+    <string name="open_settings">打开设置</string>
+
+    <string name="Geofence_create">地理栅栏创建成功地</string>
+    <string name="set_radius">
+请设置地理栅栏的半径</string>
+
+    <string name="Enter_Places">
+输入地点</string>
+    <string name="Enter_place_name">
+进入栅栏的名称</string>
+    <string name="Edit">编辑</string>
+    <string name="delete">
+删除</string>
+    <string name="Show_me">
+给我看</string>
+    <string name="Setting_save">设置保存成功</string>
+    <string name="profile_silent">无声</string>
+    <string name="profile_meeting">会议</string>
+    <string name="profile_genral">一般</string>
+    <string name="profile_NONE">无</string>
+    <string name="silent">无声</string>
+    <string name="Profile_eneter">
+简介时输入：</string>
+    <string name="Profile_exit">配置文件时退出：</string>
+
+    <string name="Network_slow">网络很慢，请重试信</string>
+
+    <string name="Geofence_notcreate">出事了再试信</string>
+
+    <string name="emptylist">点击添加按钮地理围栏</string>
+    <string name="open_location_settings">启用GPS</string>
+    <string name="place_marker">位置标记</string>
+    <string name="toast_add_location">请按 \'+ \' 图标添加位置</string>
+    <string name="toast_choose_tab">选择任何选项卡添加位置</string>
+    <string name="toast_auto_search">在顶部的搜索位置，底部设置半径和名称，按\保存“保存\ ”右侧图标中旬 </string>
+
+    <string name="toast_place_marker">
+通过滚动地图设置位置 </string>
+    <string name="toast_current_location">通过点击\设置当前位置“导航\ ”，在左上角的图标 </string>
+    <string name="snackbar_name">
+请写栅栏的底部名</string>
+
+
+
+</resources>

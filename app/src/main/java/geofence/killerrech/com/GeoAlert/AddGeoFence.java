@@ -1,24 +1,19 @@
 package geofence.killerrech.com.GeoAlert;
 
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -29,27 +24,29 @@ import com.google.android.gms.location.LocationServices;
 import com.killerrech.Geofence.Constants;
 import com.killerrech.Geofence.GeofenceErrorMessages;
 import com.killerrech.Geofence.GeofenceTransitionsIntentService;
-
+import com.killerrech.Geofence.GpsTrackingService;
+import com.killerrech.Utility.NetworkUtil;
+import com.killerrech.constant.ConstantsForSharedPrefrences;
 import com.killerrech.database.TablesController;
 import com.killerrech.model.Geofencemodel;
+import com.killerrech.sharedPrefrences.SharedPrefrence;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class AddGeoFence extends ActionBarActivity implements
+public class AddGeoFence extends BaseActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
 
     // Declaring Your View and Variables
 
     Toolbar toolbar;
-
+    Toast mToast;
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[]={"Auto Search","Manual Search"};
-    int Numboftabs =2;
-
+    CharSequence Titles[] = new CharSequence[3];
+    int Numboftabs = 3;
 
 
     protected static final String TAG = "MainActivity";
@@ -73,9 +70,47 @@ public class AddGeoFence extends ActionBarActivity implements
      * Used when requesting to add or remove geofences.
      */
     private PendingIntent mGeofencePendingIntent;
-    Location mlocation,location;
-    double latitude,longitude;
-    LocationManager locationManager;
+    ProgressDialog pDialog;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!SharedPrefrence.getBooleanSharedPrefernces(this, ConstantsForSharedPrefrences.IS_GPS_AVAILABLE)) {
+            GpsTrackingService.showDialog(this);
+        }
+        NetworkUtil.getConnectivityStatusBoolean(this);
+
+        if (!SharedPrefrence.getBooleanSharedPrefernces(this, ConstantsForSharedPrefrences.IS_NETWORK_AVAILABLE)) {
+            GpsTrackingService.showNetworkDialog(this);
+        }
+
+    }
+
+    private void initProgressDialog() {
+        pDialog = new ProgressDialog(this, R.style.TransparentProgressDialog);
+        pDialog.setIndeterminateDrawable(getResources().getDrawable(R.drawable.custom_progress_background));
+        pDialog.setCancelable(false);
+
+    }
+
+    public void showpDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    public void hidepDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
+//    StartAppAd.showSplash(this, savedInstanceState);
+
+//    StartAppSDK.init(this, AppConstant.account_Id, AppConstant.app_Id,
+//            false);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +119,20 @@ public class AddGeoFence extends ActionBarActivity implements
 
 
         // Creating The Toolbar and setting it as the Toolbar for the activity
+        mToast = Toast.makeText(AddGeoFence.this, "This is a toast.", Toast.LENGTH_SHORT);
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        Titles[0] = getResources().getString(R.string.auto_search);
+        Titles[1] = getResources().getString(R.string.place_marker);
+        Titles[2] = getResources().getString(R.string.current_location);
+
+        initProgressDialog();
+        NetworkUtil.setToast(this, getResources().getString(R.string.toast_choose_tab));
 
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -111,172 +153,100 @@ public class AddGeoFence extends ActionBarActivity implements
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-        buildGoogleApiClient();
-        location=getLocation1();
-        if (location!=null){
-            SharedPrefrence.saveStringSharedPrefernces(this,ConstantsForSharedPrefrences.CURRENT_LATITUDE,latitude+"");
-            SharedPrefrence.saveStringSharedPrefernces(this,ConstantsForSharedPrefrences.CURRENT_LONGITUDE,longitude+"");
-            System.out.println("latitude::" + latitude);
-            System.out.println("longitude::"+longitude);
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                final InputMethodManager imm = (InputMethodManager) getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(pager.getWindowToken(), 0);
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        mToast.cancel();
+                        mToast.makeText(AddGeoFence.this, getResources().getString(R.string.toast_auto_search), Toast.LENGTH_SHORT).show();
+//                        NetworkUtil.setLongToast(AddGeoFence.this, getResources().getString(R.string.toast_auto_search));
 
-        }
+                        break;
+                    case 1:
+                        mToast.cancel();
+                        mToast.makeText(AddGeoFence.this, getResources().getString(R.string.toast_place_marker), Toast.LENGTH_SHORT).show();
+//                        NetworkUtil.setLongToast(AddGeoFence.this, getResources().getString(R.string.toast_place_marker));
 
+                        break;
+                    case 2:
+                        mToast.cancel();
+                        mToast.makeText(AddGeoFence.this, getResources().getString(R.string.toast_current_location), Toast.LENGTH_SHORT).show();
+//                        NetworkUtil.setLongToast(AddGeoFence.this, getResources().getString(R.string.toast_current_location));
 
+                        break;
 
-    }
-
-
-
-    boolean isGPSEnabled,isNetworkEnabled;
-    public Location getLocation1() {
-        try {
-            locationManager = (LocationManager) AddGeoFence.this
-                    .getSystemService(LOCATION_SERVICE);
-
-            // getting GPS status
-            isGPSEnabled = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-            // getting network status
-            isNetworkEnabled = locationManager
-                    .isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
-
-            if (!isGPSEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
-            } else {
-
-                if (isGPSEnabled) {
-                    if (location == null) {
-                        locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                5000,
-                                10, new LocationListener() {
-
-                                    @Override
-                                    public void onStatusChanged(String provider, int status, Bundle extras) {
-                                        // TODO Auto-generated method stub
-
-                                    }
-
-                                    @Override
-                                    public void onProviderEnabled(String provider) {
-                                        // TODO Auto-generated method stub
-
-                                    }
-
-                                    @Override
-                                    public void onProviderDisabled(String provider) {
-                                        // TODO Auto-generated method stub
-
-                                    }
-
-                                    @Override
-                                    public void onLocationChanged(Location location) {
-                                        // TODO Auto-generated method stub
-
-                                    }
-                                });
-                        Log.d("GPS", "GPS Enabled");
-                        if (locationManager != null) {
-                            location = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-
-                            if (location != null) {
-                                Toast.makeText(AddGeoFence.this,"GPS location",Toast.LENGTH_SHORT).show();
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
-                        }
-                    }
                 }
-//	            this.canGetLocation = true;
-                if (isNetworkEnabled) {
-                    locationManager.requestLocationUpdates(
-                            LocationManager.NETWORK_PROVIDER,
-                            5000,
-                            10, new LocationListener() {
-
-                                @Override
-                                public void onStatusChanged(String provider, int status, Bundle extras) {
-                                    // TODO Auto-generated method stub
-
-                                }
-
-                                @Override
-                                public void onProviderEnabled(String provider) {
-                                    // TODO Auto-generated method stub
-
-                                }
-
-                                @Override
-                                public void onProviderDisabled(String provider) {
-                                    // TODO Auto-generated method stub
-
-                                }
-
-                                @Override
-                                public void onLocationChanged(Location location) {
-                                    // TODO Auto-generated method stub
-
-                                }
-                            });
-                    Log.d("Network", "Network Enabled");
-                    if (locationManager != null) {
-                        location = locationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-                        if (location != null) {
-                            Toast.makeText(AddGeoFence.this,"GSM location",Toast.LENGTH_SHORT).show();
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                        }
-                    }
-                }
-                // if GPS Enabled get lat/long using GPS Services
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-        return location;
+            }
+        });
+
+        buildGoogleApiClient();
+
+
+//        mInterstitialAd.setAdUnitId(getResources().getString(R.string.full_ad_unit_id));
+
+//        mAdView.loadAd(adRequest);
+//
+//        mInterstitialAd.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdClosed() {
+//                requestNewInterstitial();
+//
+//            }
+//
+//        });
+
+//        mAdView.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdClosed() {
+//
+//            }
+//
+//            @Override
+//            public void onAdLoaded() {
+//                // TODO Auto-generated method stub
+//                super.onAdLoaded();
+//                mAdView.setVisibility(View.VISIBLE);
+//            }
+//
+//            @Override
+//            public void onAdFailedToLoad(int errorCode) {
+//                // TODO Auto-generated method stub
+//                super.onAdFailedToLoad(errorCode);
+//                mAdView.setVisibility(View.GONE);
+//
+//            }
+//        });
+//        requestNewInterstitial();
+
     }
 
 
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+                .build();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        mInterstitialAd.loadAd(adRequest);
     }
 
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-
-
-
+        Log.i(TAG, "Connected to GoogleApiClient");
     }
 
     @Override
@@ -315,7 +285,6 @@ public class AddGeoFence extends ActionBarActivity implements
      */
 
 
-
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -336,8 +305,14 @@ public class AddGeoFence extends ActionBarActivity implements
         mGoogleApiClient.disconnect();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
 
     public void addGeofencesButtonHandler(Geofence geofence) {
+
         if (!mGoogleApiClient.isConnected()) {
 //            Toast.makeText(,"Connected", Toast.LENGTH_SHORT).show();
             return;
@@ -369,7 +344,7 @@ public class AddGeoFence extends ActionBarActivity implements
             return;
         }
         try {
-            List<String> removingGeofenceId=new ArrayList<String>();
+            List<String> removingGeofenceId = new ArrayList<String>();
             removingGeofenceId.add(geofence.getRequestId());
             // Remove geofences.
             LocationServices.GeofencingApi.removeGeofences(
@@ -395,32 +370,44 @@ public class AddGeoFence extends ActionBarActivity implements
      * define this method.
      *
      * @param status The Status returned through a PendingIntent when addGeofences() or
-     *               removeGeofences() get called.
-     *                   TablesController tbController;
-
+     * removeGeofences() get called.
+     * TablesController tbController;
      */
 
     TablesController tbController;
 
     public void onResult(Status status) {
         if (status.isSuccess()) {
-            if(mGeofencesAdded){
-                tbController= TablesController.getTablesController(this);
+
+            if (mGeofencesAdded) {
+                tbController = TablesController.getTablesController(this);
                 tbController.open();
                 Geofencemodel geofence;
-                if(AutoSearchFragment.isFlag)
-                     geofence= AutoSearchFragment.GeofenceTOAdd;
-                else
-                 geofence=ManualSearchFragment.GeofenceTOAdd;
+                geofence = ManualSearchFragment.GeofenceTOAdd;
 
-                long insertedid=tbController.
-                        addGeoLocation(geofence.getId(),geofence.getLatitude()+"",geofence.getLongitude()+"",geofence.getRadius(),geofence.getAddress(),geofence.getGeoName());
-                System.out.println("-----insert--id"+insertedid);
-                Toast.makeText(this,"Geofence Create",Toast.LENGTH_SHORT).show();
-                Intent mintent = new Intent(this,Settings.class
+                long insertedid = tbController.
+                        addGeoLocation(geofence.getId(), geofence.getLatitude() + "", geofence.getLongitude() + "", geofence.getRadius(), geofence.getAddress(), geofence.getGeoName());
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hidepDialog();
+
+                        Toast.makeText(AddGeoFence.this, getResources().getString(R.string.Geofence_create), Toast.LENGTH_SHORT).show();
+
+
+                    }
+                });
+
+
+                Intent mintent = new Intent(this, Settings.class
                 );
-                startActivity(mintent);
-                this.finish();
+
+                mintent.putExtra("Key_GeoId", geofence.getId());
+                mintent.putExtra("Key_GeoName", geofence.getAddress());
+                startActivityForResult(mintent, Constants.ADD_GEOFENCE_REQUEST);
+                //  this.finish();
             }
 //            Toast.makeText(
 //                    this,
@@ -432,8 +419,28 @@ public class AddGeoFence extends ActionBarActivity implements
             // Get the status code for the error and log it using a user-friendly message.
             String errorMessage = GeofenceErrorMessages.getErrorString(this,
                     status.getStatusCode());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hidepDialog();
+                    Toast.makeText(AddGeoFence.this, getResources().getString(R.string.Geofence_notcreate), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
             Log.e(TAG, errorMessage);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.ADD_GEOFENCE_REQUEST && resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+        } else {
+            setResult(RESULT_CANCELED);
+        }
+        finish();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
@@ -455,4 +462,13 @@ public class AddGeoFence extends ActionBarActivity implements
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+
+//        if (mInterstitialAd.isLoaded()) {
+//            mInterstitialAd.show();
+//        }
+        super.onBackPressed();
+    }
 }

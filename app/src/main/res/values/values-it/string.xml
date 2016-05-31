@@ -1,0 +1,120 @@
+<resources>
+    <string name="app_name">GeoAlert</string>
+
+
+    <string name="action_settings">
+impostazioni</string>
+    <string name="dialog_nearby">Selezionare Luoghi a Geofence entrano</string>
+    <string name="action_search">Ricerca</string>
+
+    <string name="SETTING">
+ambiente</string>
+
+    <!-- navigation drawer item labels  -->
+
+
+    <string name="save">salvare</string>
+    <string name="location_name">Nome del luogo</string>
+    <string name="Near_by">Vicino da luoghi</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_add_geo_fence">
+aggiungere GeoFence</string>
+
+
+    <!-- Buttons strings -->
+    <string name="add_geofences">
+aggiungere geofences</string>
+    <string name="remove_geofences">
+rimuovere geofences</string>
+
+    <string name="geofences_added">
+geofences aggiunti</string>
+    <string name="geofences_removed">geofences rimossi
+</string>
+
+    <!-- Error strings -->
+    <string name="not_connected">GoogleApiClient non ancora collegato . Riprova.</string>
+    <string name="geofence_not_available"> servizio Geofence non è disponibile ora</string>
+    <string name="geofence_too_many_geofences">
+La vostra applicazione ha registrato troppi geofences</string>
+    <string name="geofence_too_many_pending_intents">
+
+Lei ha fornito troppe PendingIntents alle addGeofences ( ) chiamata
+    </string>
+    <string name="unknown_geofence_error">
+
+Errore sconosciuto : il servizio Geofence non è disponibile ora
+    </string>
+    <string name="geofence_transition_invalid_type">
+
+Geofence errore di transizione : non valido tipo di transizione % 1 $ d    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">
+entrato</string>
+    <string name="geofence_transition_exited">uscito</string>
+    <string name="unknown_geofence_transition">
+sconosciuta transizione</string>
+
+    <string name="geofence_transition_notification_text">Clicca notifica per tornare alla app</string>
+    <string name="setting_notification">
+Notifica</string>
+
+    <string name="setting_alarm">anello di allarme</string>
+    <string name="heading_nearby">nelle vicinanze</string>
+
+    <string name="auto_search">Ricerca automatica</string>
+    <string name="current_location">Aggiungi posizione corrente</string>
+
+
+    <string name="Done">
+Fatto</string>
+    <string name="No">No</string>
+
+    <!--   write the validation  -->
+
+    <string name="snackbar_loc">
+Selezionare la posizione </string>
+    <string name="snackbar_name">Si prega di scrivere il nome di GeoFence</string>
+
+    <string name="Geofence">GeoFence</string>
+
+    <string name="Cancel">Cancellare</string>
+    <string name="Ok">Ok</string>
+    <string name="gps_network_not_enabled">
+GPS è disattivato nel tuo dispositivo . Ti piacerebbe attivarlo ?</string>
+    <string name="open_location_settings">Vai a Impostazioni pagina per attivare il GPS</string>
+    <string name="network_not_enabled">
+Rete non è disponibile .</string>
+    <string name="open_settings">
+impostazioni aperte</string>
+
+
+    <string name="Geofence_create">Geofence creato con successo</string>
+    <string name="set_radius">Si prega di impostare il raggio del geofence</string>
+
+    <string name="Enter_Places">
+Inserisci Luoghi</string>
+    <string name="Enter_place_name">
+Immettere il nome di GeoFence</string>
+    <string name="Edit">Modifica</string>
+    <string name="delete">
+cancellare</string>
+    <string name="Show_me">Fammi vedere</string>
+    <string name="Setting_save">
+Impostazione Salva con successo</string>
+    <string name="profile_silent">silenzioso</string>
+    <string name="profile_meeting">
+Incontro</string>
+    <string name="profile_genral">Generale</string>
+    <string name="profile_NONE">
+Nessuna</string>
+    <string name="silent">
+silenzioso</string>
+    <string name="Profile_eneter">
+Profilo quando inserire :</string>
+    <string name="Profile_exit">Profilo quando si esce :</string>
+
+
+</resources>

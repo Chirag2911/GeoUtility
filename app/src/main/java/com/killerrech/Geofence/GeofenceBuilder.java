@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,9 +17,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-
-import geofence.killerrech.com.GeoAlert.R;
 
 /**
  * Created by Chiggy on 13/10/15.
@@ -59,15 +56,17 @@ public class GeofenceBuilder implements
     private SharedPreferences mSharedPreferences;
 
     private GeofenceBuilder() {
+        buildGoogleApiClient();
 
 
     }
 
     public static GeofenceBuilder getInstance(Context mcon) {
+        mcontext = mcon;
+
         if (object == null) {
             object = new GeofenceBuilder();
 
-            mcontext = mcon;
         }
 
         return object;
@@ -120,17 +119,21 @@ public class GeofenceBuilder implements
      * Adds geofences, which sets alerts to be notified when the device enters or exits one of the
      * specified geofences. Handles the success or failure results returned by addGeofences().
      */
-    public void addGeofencesButtonHandler(Geofence geofence) {
+    public void addGeofencesButtonHandler(List<Geofence> geofence) {
+        System.out.println("====================inside addGeofence");
+
         if (!mGoogleApiClient.isConnected()) {
 //            Toast.makeText(,"Connected", Toast.LENGTH_SHORT).show();
             return;
         }
 
         try {
+            System.out.println("====================inside addGeofence");
+
             LocationServices.GeofencingApi.addGeofences(
                     mGoogleApiClient,
                     // The GeofenceRequest object.
-                    getGeofencingRequest(geofence),
+                    geofence,
                     // A pending intent that that is reused when calling removeGeofences(). This
                     // pending intent is used to generate an intent when a matched geofence
                     // transition is observed.
@@ -146,17 +149,20 @@ public class GeofenceBuilder implements
      * Removes geofences, which stops further notifications when the device enters or exits
      * previously registered geofences.
      */
-    public void removeGeofencesButtonHandler(View view) {
+    public void removeGeofencesButtonHandler(List<String> geofence) {
+        System.out.println("====================inside remove");
         if (!mGoogleApiClient.isConnected()) {
 //            Toast.makeText(this,"NOtConnected", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
             // Remove geofences.
+            System.out.println("====================inside remove");
+
             LocationServices.GeofencingApi.removeGeofences(
                     mGoogleApiClient,
                     // This is the same pending intent that was used in addGeofences().
-                    getGeofencePendingIntent()
+                    geofence
             ).setResultCallback(this); // Result processed in onResult().
         } catch (SecurityException securityException) {
             // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
@@ -182,10 +188,14 @@ public class GeofenceBuilder implements
     public void onResult(Status status) {
         if (status.isSuccess()) {
             // Update state and save in shared preferences.
-            mGeofencesAdded = !mGeofencesAdded;
-            SharedPreferences.Editor editor = mSharedPreferences.edit();
-            editor.putBoolean(Constants.GEOFENCES_ADDED_KEY, mGeofencesAdded);
-            editor.commit();
+
+            System.out.println("========================on Result:::"+status.getStatusMessage());
+
+
+//            mGeofencesAdded = !mGeofencesAdded;
+//            SharedPreferences.Editor editor = mSharedPreferences.edit();
+//            editor.putBoolean(Constants.GEOFENCES_ADDED_KEY, mGeofencesAdded);
+//            editor.commit();
 
             // Update the UI. Adding geofences enables the Remove Geofences button, and removing
             // geofences enables the Add Geofences button.

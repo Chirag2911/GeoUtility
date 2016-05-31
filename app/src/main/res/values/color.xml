@@ -35,22 +35,71 @@
   
      <color name="greyline">#EFEFEF</color>
      
-   <color name="Red">#FF0000</color>
+   <color name="trans_green">#3087CEFA</color>
    <color name="headerorange">#FF5944</color>
    <color name="headercolor">#3F5B67</color>
    <color name="listgreycolor">#E6E6E6</color>
    <color name="bluebutton">#60C9D7</color>
 
 
-    <color name="ColorPrimary">#e62117</color>
+   <!-- <color name="ColorPrimary">#e62117</color>
     <color name="ColorPrimaryDark">#c31c13</color>
-    <color name="tabsScrollColor">#8a140e</color>
+    <color name="tabsScrollColor">#8a140e</color> -->
 
 
 
-    <color name="textColorPrimary">#FFFFFF</color>
+
+  <!--
+
+    <color name="ColorPrimary">#F44336</color>
+    <color name="ColorPrimaryDark">#D32F2F</color>
+    <color name="tabsScrollColor">#FFCDD2</color>
+
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondry">#727272</color>
+    <color name="dividercolor">#B6B6B6</color>
+
+
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
-    <color name="colorAccent">#e62117</color>
-   <!-- <color name="orange">#FF8000</color> --> 
+    <color name="colorAccent">#FF5252</color>
+    -->
+
+
+    <color name="ColorPrimary">#3F51B5</color>
+<color name="ColorPrimaryDark">#303F9F</color>
+<color name="tabsScrollColor">#C5CAE9</color>
+
+<color name="textColorPrimary">#212121</color>
+<color name="textColorSecondry">#727272</color>
+<color name="dividercolor">#B6B6B6</color>
+
+
+<color name="windowBackground">#FFFFFF</color>
+<color name="navigationBarColor">#000000</color>
+<color name="colorAccent">#CDDC39</color>
+
+
+    <color name="sbuttonunsel">#2196f3</color>
+
+
+    <color name="settingSubheading">#3B6AA0</color>
+
+    <color name="skyblue">#87CEEB</color>
+
+
+
+    <color name="lightred">#ff5b5b</color>
+
+    <drawable name="btn_join_sel">#e0dfdf</drawable>
+    <drawable name="btn_join_unsel">#B6B6B6</drawable>
+
+    <!-- transparent -->
+   <color name="transparent_orange">#40FF8000</color>
+    <color name="transparent_grey">#40544741</color>
+    <color name="transparent_green">#4087CEFA</color>
+    <color name="transparent_blue">#5060C9D7</color>
+    <color name="transparent_neavyblue">#50000080</color>
+    <color name="transparent_white">#80ffffff</color>
+
 </resources>

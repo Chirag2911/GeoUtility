@@ -4,8 +4,17 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
 
-        <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- Default screen margins, per the Android Design guidelines. -->
 
-        <dimen name="nav_drawer_width">260dp</dimen>
+    <dimen name="nav_drawer_width">260dp</dimen>
+    <dimen name="heading_text">17sp</dimen>
+    <dimen name="Mainheading_text">24dp</dimen>
+
+    <dimen name="Subheadingheading_text">21dp</dimen>
+
+    <dimen name="textPrimarySize">18dp</dimen>
+    <dimen name="textSecondrySize">14dp</dimen>
+    <dimen name="mainheadersize">50dp</dimen>
+
 
 </resources>

@@ -1,67 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="geofence.killerrech.com.GeoAlert" >
+    package="geofence.killerrech.com.GeoAlert">
+
+    <uses-sdk android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-        <permission
+    <permission
         android:name="geofence.killerrech.com.GeoAlert.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature"/>
-<uses-sdk android:targetSdkVersion="20"></uses-sdk>
-    <uses-permission android:name="geofence.killerrech.com.GeoAlert.permission.MAPS_RECEIVE"/>
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="geofence.killerrech.com.GeoAlert.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/MyMaterialTheme"
-        >
-
-
+        android:theme="@style/MyMaterialTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
-
-
         <activity
-            android:name="geofence.killerrech.com.GeoAlert.MainActivity"
-            android:label="@string/app_name" >
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
         <activity
-            android:name="geofence.killerrech.com.GeoAlert.AddGeoFence"
-            android:label="@string/title_activity_add_geo_fence" >
-        </activity>
-
-
+            android:name=".NearBy"
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="geofence.killerrech.com.GeoAlert.Settings"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:name=".AddGeoFence"
+            android:label="@string/title_activity_add_geo_fence"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+        <activity
+            android:name=".Settings"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.killerrech.alert.AlarmAlertActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true"
+            android:taskAffinity=""
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
+        <receiver android:name="com.killerrech.alert.AlarmAlertBroadcastReciever"></receiver>
+
+        <service android:name="com.killerrech.Geofence.GeofenceTransitionsIntentService" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCJCgviS3bWZUegq4FaW1EdCWfTzq7zRjk"/>
+            android:value="AIzaSyDGO-Xxe72HlCZNjnUg7RcH8XJwbhvoj6g" />
 
-        <service android:name="com.killerrech.Geofence.GeofenceTransitionsIntentService"/>    </application>
+        <service android:name="com.killerrech.Geofence.GpsTrackingService" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <receiver android:name="com.killerrech.reciever.ReRegisterGeofence">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
+        <service
+            android:name="com.killerrech.reciever.RegisterGeofenceService"
+            android:exported="false"></service>
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+    </application>
 
 </manifest>

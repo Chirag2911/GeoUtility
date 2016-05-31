@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_gravity="center_horizontal">-->
+        <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/blue"-->
+            <!--android:layout_margin="2dp"-->
+           <!-->-->
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="ATMs"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:id="@+id/button1"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:background="@color/blue"/>-->
+           <!--&lt;!&ndash; <CheckBox-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/imageView"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:checked="true"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentEnd="true" />&ndash;&gt;-->
+
+            <!--<CheckBox-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/imageView1"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentEnd="true" />-->
+
+
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/Red"-->
+            <!--android:layout_margin="2dp"-->
+
+            <!-->-->
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Banks"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:id="@+id/button2"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:background="@color/Red"/>-->
+
+            <!--<CheckBox-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/imageView2"-->
+                <!--android:src="@drawable/rsz_tick"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentEnd="true" />-->
+
+
+        <!--</RelativeLayout>-->
+
+
+    <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_gravity="center_horizontal">-->
+        <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/green"-->
+            <!--android:layout_margin="2dp"-->
+
+            <!-->-->
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Hotels"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:id="@+id/button3"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:background="@color/green"/>-->
+
+            <!--<CheckBox-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/imageView3"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentEnd="true" />-->
+
+
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/orange"-->
+            <!--android:layout_margin="2dp"-->
+
+            <!-->-->
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Banks"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:id="@+id/button4"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:background="@color/orange"/>-->
+
+            <!--<CheckBox-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/imageView4"-->
+                <!--android:src="@drawable/rsz_tick"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentEnd="true" />-->
+
+
+        <!--</RelativeLayout>-->
+
+
+    <!--</LinearLayout>-->
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridViewForDailog"
+        android:numColumns="2"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

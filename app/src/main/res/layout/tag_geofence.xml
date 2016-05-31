@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/mheadergeofence"
         android:layout_width="match_parent"
-android:layout_height="60dp"
+        android:layout_height="@dimen/mainheadersize"
         android:layout_alignParentTop="true"
         android:background="@color/ColorPrimary"
         android:gravity="center_vertical"
@@ -20,9 +28,23 @@ android:layout_height="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="GEOFENCE"
-            android:textColor="@color/headingtextcolor"
-            android:textStyle="bold" />
+            android:text="@string/Geofence"
+            android:textStyle="italic"
+            android:textSize="@dimen/Mainheading_text"
+            android:textColor="@color/white"
+             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/imageNearBy"
+            android:text="@string/heading_nearby"
+            android:textColor="@color/white"
+            android:textSize="9dp"
+            android:padding="5dp"
+            android:layout_alignParentRight="true"
+            android:drawableTop="@drawable/location_history_white_36x36"
+
+            />
 
 
     </RelativeLayout>
@@ -35,32 +57,59 @@ android:layout_height="60dp"
     <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="280dp"
         android:layout_below="@+id/mheadergeofence"
         class="com.google.android.gms.maps.MapFragment"
-        android:layout_above="@+id/mlistgeofenceplaces" />
+         />
 
 
 
 
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/map"
+    android:layout_above="@+id/startAppBanner1"
+    android:layout_marginTop="3dp">
+    <TextView
+        android:id="@+id/emptyview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textPrimarySize"
+        android:textColor="@color/textColorSecondry"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/toast_add_location"
+        />
 
-
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/mlistgeofenceplaces"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true" >
-    </ListView>
-    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
 
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</FrameLayout>
+
+    <com.killerrech.model.ADview
+        android:id="@+id/startAppBanner1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="16dp"
-            android:src="#11111111" />
-    </android.support.design.widget.CoordinatorLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|center_horizontal"
+        />
+
+
+
+
 </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/mlistgeofenceplaces"
+        android:layout_marginRight="5dp"
+
+        app:layout_anchorGravity="end|top"
+        android:src="@drawable/add_white_36x36" />
+    </android.support.design.widget.CoordinatorLayout>
