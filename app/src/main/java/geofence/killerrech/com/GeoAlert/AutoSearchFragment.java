@@ -1,6 +1,7 @@
 package geofence.killerrech.com.GeoAlert;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -8,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -230,9 +232,6 @@ public class AutoSearchFragment extends Fragment implements PlacesAutoCompleteAd
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
 
-        // Showing / hiding your current location
-        googleMap.setMyLocationEnabled(true);
-
         // Enable / Disable zooming controls
         googleMap.getUiSettings().setZoomControlsEnabled(false);
 
@@ -250,6 +249,14 @@ public class AutoSearchFragment extends Fragment implements PlacesAutoCompleteAd
 
         // lets place some 10 random markers
         System.out.println("enter in map");
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (BaseActivity.baseContext != null)
+                (BaseActivity.baseContext).getCallingPermission();
+            return null;
+        }
+        // Showing / hiding your current location
+        googleMap.setMyLocationEnabled(true);
+
 
         return view;
 
