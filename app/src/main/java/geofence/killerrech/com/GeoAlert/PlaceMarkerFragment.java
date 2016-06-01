@@ -215,8 +215,7 @@ public class PlaceMarkerFragment extends Fragment implements GoogleMap.OnMarkerD
         // googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         // googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
 
-        // Showing / hiding your current location
-        googleMap.setMyLocationEnabled(true);
+
 
         // Enable / Disable zooming controls
         googleMap.getUiSettings().setZoomControlsEnabled(false);
@@ -236,20 +235,21 @@ public class PlaceMarkerFragment extends Fragment implements GoogleMap.OnMarkerD
         googleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                mlat=cameraPosition.target.latitude;
-                mlong=cameraPosition.target.longitude;
-
-
-
-
-
-
-
+                mlat = cameraPosition.target.latitude;
+                mlong = cameraPosition.target.longitude;
             }
         });
 
 
        // for setting current location  first time for marker
+        System.out.println("enter in map");
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (BaseActivity.baseContext != null)
+                (BaseActivity.baseContext).getCallingPermission();
+            return null;
+        }
+        // Showing / hiding your current location
+        googleMap.setMyLocationEnabled(true);
 
         Location mloc = getLocation();
         if(mloc!=null) {
