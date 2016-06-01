@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +27,7 @@ import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -154,6 +157,9 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tag_geofence);
+
+
+
         NetworkUtil.setLongToast(this, getResources().getString(R.string.toast_add_location));
 
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -287,6 +293,7 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
     protected void onResume() {
         super.onResume();
 
+        getCallingPermission();
 
         NetworkUtil.IsGpsEnable(this);
             if (!SharedPrefrence.getBooleanSharedPrefernces(this, ConstantsForSharedPrefrences.IS_GPS_AVAILABLE)) {
@@ -345,10 +352,7 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
         if (cr.getCount() > 0) {
             cr.moveToFirst();
             Log.d("TAGCount", cr.getCount() + "");
-
-
             while (!cr.isAfterLast()) {
-
                 Geofencemodel gd = new Geofencemodel();
                 gd.setLatitude(Double.parseDouble(cr.getString(cr.getColumnIndex(DBHelper.GEO_LATITUDE))));
                 gd.setLongitude(Double.parseDouble(cr.getString(cr.getColumnIndex(DBHelper.GEO_LONGITUDE))));
@@ -409,7 +413,6 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
         map.clear();
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         map.getUiSettings().setZoomGesturesEnabled(true);
-        map.setMyLocationEnabled(true);
         map.setTrafficEnabled(true);
         map.setBuildingsEnabled(true);
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -511,6 +514,62 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
         }
 
+    }
+
+
+    public boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if (result == PackageManager.PERMISSION_GRANTED){
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    public void requestPermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            Toast.makeText(this, "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_LOCATION_REQUEST_CODE);
+
+        } else {
+
+            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},Constants.PERMISSION_LOCATION_REQUEST_CODE);
+        }
+    }
+
+
+    public void getCallingPermission() {
+        if (!checkPermission()) {
+            if(!SharedPrefrence.getBooleanSharedPrefernces(this,"bool")){
+            SharedPrefrence.saveBooleanSharedPrefernces(this,"bool",true);
+            requestPermission();}
+        }else{if(map!=null)
+            map.setMyLocationEnabled(true);
+
+        }}
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        System.out.println("=======inside on onRequest Permission Result");
+        SharedPrefrence.saveBooleanSharedPrefernces(this, "bool", false);
+
+        switch (requestCode) {
+            case Constants.PERMISSION_LOCATION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startService(new Intent(this, GpsTrackingService.class));
+                    map.setMyLocationEnabled(true);
+
+                } else {
+
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 }

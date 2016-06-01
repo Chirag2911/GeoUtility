@@ -14,6 +14,7 @@ android {
     defaultConfig {
         applicationId "geofence.killerrech.com.GeoAlert"
         minSdkVersion 9
+
         targetSdkVersion 23
         versionCode 6
         versionName "1.4.1"
@@ -27,6 +28,9 @@ android {
     }
 }
 android {
+    lintOptions {
+        disable 'MissingTranslation'
+    }
     useLibrary 'org.apache.http.legacy'
 }
 dependencies {

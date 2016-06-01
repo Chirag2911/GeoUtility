@@ -1,6 +1,7 @@
 package geofence.killerrech.com.GeoAlert;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -31,7 +32,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.killerrech.Geofence.Constants;
+import com.killerrech.Geofence.GpsTrackingService;
 import com.killerrech.model.Geofencemodel;
+import com.killerrech.sharedPrefrences.SharedPrefrence;
 
 import java.io.IOException;
 import java.util.List;
@@ -108,6 +112,7 @@ public class ManualSearchFragment extends Fragment {
                 .findFragmentById(R.id.map)).getMap();
 //                googleMap = ((SupportMapFragment) getChildFragmentManager()
 //                        .findFragmentById(R.id.map)).getMap();
+        getCallingPermission();
 
 
         medit = (EditText) view.findViewById(R.id.geofencebutton);
@@ -227,7 +232,6 @@ public class ManualSearchFragment extends Fragment {
         // googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
 
         // Showing / hiding your current location
-        googleMap.setMyLocationEnabled(true);
 
         // Enable / Disable zooming controls
         googleMap.getUiSettings().setZoomControlsEnabled(false);
@@ -255,7 +259,7 @@ public class ManualSearchFragment extends Fragment {
         this.locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (BaseActivity.baseContext != null)
-                (BaseActivity.baseContext).getCallingPermission();
+//                (BaseActivity.baseContext).getCallingPermission();
             return null;
         }
         return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
@@ -359,6 +363,62 @@ public class ManualSearchFragment extends Fragment {
 
 
         }
+    }
+
+    public boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if (result == PackageManager.PERMISSION_GRANTED){
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    public void requestPermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            Toast.makeText(getActivity(), "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_LOCATION_REQUEST_CODE);
+
+        } else {
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_LOCATION_REQUEST_CODE);
+        }
+    }
+
+
+    public void getCallingPermission() {
+        if (!checkPermission()) {
+
+            if(!SharedPrefrence.getBooleanSharedPrefernces(getActivity(), "bool")){
+                SharedPrefrence.saveBooleanSharedPrefernces(getActivity(),"bool",true);
+                requestPermission();}        }else{
+            googleMap.setMyLocationEnabled(true);
+
+        }}
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        System.out.println("=======inside on onRequest Permission Result");
+        SharedPrefrence.saveBooleanSharedPrefernces(getActivity(), "bool", false);
+
+        switch (requestCode) {
+            case Constants.PERMISSION_LOCATION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getActivity().startService(new Intent(getActivity(),GpsTrackingService.class));
+                    googleMap.setMyLocationEnabled(true);
+
+
+                } else {
+
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 

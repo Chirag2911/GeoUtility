@@ -31,6 +31,7 @@ public final class Constants {
 
     private Constants() {
     }
+    public static final int PERMISSION_LOCATION_REQUEST_CODE = 111;
 
     public static final String PACKAGE_NAME = "com.google.android.gms.location.Geofence";
 

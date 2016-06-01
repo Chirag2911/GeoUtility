@@ -2,6 +2,7 @@ package geofence.killerrech.com.GeoAlert;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,10 +13,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -29,6 +32,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.killerrech.Geofence.Constants;
 import com.killerrech.Geofence.GpsTrackingService;
 import com.killerrech.Utility.NearByParser;
 import com.killerrech.Utility.NetworkUtil;
@@ -79,6 +83,7 @@ public class NearBy extends BaseActivity implements GoogleMap.OnMapLoadedCallbac
     @Override
     protected void onResume() {
         super.onResume();
+        getCallingPermission();
         mspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -132,8 +137,6 @@ public class NearBy extends BaseActivity implements GoogleMap.OnMapLoadedCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        StartAppSDK.init(this, "200078503", false);
-
         setContentView(R.layout.nearby);
         mspinner = (Spinner) findViewById(R.id.nearbyspinner);
 //        mBaaner = (Banner)      findViewById(R.id.startAppBanner);
@@ -227,7 +230,7 @@ public class NearBy extends BaseActivity implements GoogleMap.OnMapLoadedCallbac
         this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (BaseActivity.baseContext != null)
-                (BaseActivity.baseContext).getCallingPermission();
+//                (BaseActivity.baseContext).getCallingPermission();
             return null;
         }
         return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
@@ -280,6 +283,8 @@ public class NearBy extends BaseActivity implements GoogleMap.OnMapLoadedCallbac
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             map.clear();
+            map.setMyLocationEnabled(true);
+            map.setTrafficEnabled(true);
             for (int i = 0; i < obj1.size(); i++) {
                 latLng = new LatLng(obj1.get(i).getLatitude(), obj1.get(i).getLongitude());
                 markerOptions = new MarkerOptions();
@@ -288,8 +293,7 @@ public class NearBy extends BaseActivity implements GoogleMap.OnMapLoadedCallbac
                 markerOptions.title(obj1.get(i).getName() + "," + obj1.get(i).getAddressName());
                 markerOptions.icon(BitmapDescriptorFactory.fromBitmap(obj1.get(i).getBitmap()));
 
-                map.setMyLocationEnabled(true);
-                map.setTrafficEnabled(true);
+
                 map.addCircle(new CircleOptions().center(latLng).radius(50)
                         .strokeColor(Color.BLACK).fillColor(getResources().getColor(R.color.trans_green)).strokeWidth(2));
 
@@ -307,6 +311,55 @@ public class NearBy extends BaseActivity implements GoogleMap.OnMapLoadedCallbac
 
 
     }
+
+    public boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if (result == PackageManager.PERMISSION_GRANTED){
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    public void requestPermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            Toast.makeText(this, "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_LOCATION_REQUEST_CODE);
+
+        } else {
+
+            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},Constants.PERMISSION_LOCATION_REQUEST_CODE);
+        }
+    }
+
+
+    public void getCallingPermission() {
+        if (!checkPermission()) {
+
+            requestPermission();
+        }}
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        System.out.println("=======inside on onRequest Permission Result");
+
+        switch (requestCode) {
+            case Constants.PERMISSION_LOCATION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startService(new Intent(this,GpsTrackingService.class));
+                } else {
+
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
 
 
 }

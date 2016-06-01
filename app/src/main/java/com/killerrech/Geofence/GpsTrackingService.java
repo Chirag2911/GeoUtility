@@ -58,8 +58,8 @@ public class GpsTrackingService extends Service {
         locationListener = new MyLocationListener();
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (BaseActivity.baseContext!=null)
-                (BaseActivity.baseContext).getCallingPermission();
+//            if (BaseActivity.baseContext!=null)
+//                (BaseActivity.baseContext).getCallingPermission();
             return -1;
         }
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this.locationListener);

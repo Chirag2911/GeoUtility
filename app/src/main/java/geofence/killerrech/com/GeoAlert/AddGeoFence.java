@@ -4,7 +4,10 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,7 +42,6 @@ public class AddGeoFence extends BaseActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
 
     // Declaring Your View and Variables
-
     Toolbar toolbar;
     Toast mToast;
     ViewPager pager;
@@ -76,6 +78,7 @@ public class AddGeoFence extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+
         if (!SharedPrefrence.getBooleanSharedPrefernces(this, ConstantsForSharedPrefrences.IS_GPS_AVAILABLE)) {
             GpsTrackingService.showDialog(this);
         }
@@ -116,6 +119,8 @@ public class AddGeoFence extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_geo_fence);
+        getCallingPermission();
+
 
 
         // Creating The Toolbar and setting it as the Toolbar for the activity
@@ -168,19 +173,16 @@ public class AddGeoFence extends BaseActivity implements
                         mToast.cancel();
                         mToast.makeText(AddGeoFence.this, getResources().getString(R.string.toast_auto_search), Toast.LENGTH_SHORT).show();
 //                        NetworkUtil.setLongToast(AddGeoFence.this, getResources().getString(R.string.toast_auto_search));
-
                         break;
                     case 1:
                         mToast.cancel();
                         mToast.makeText(AddGeoFence.this, getResources().getString(R.string.toast_place_marker), Toast.LENGTH_SHORT).show();
 //                        NetworkUtil.setLongToast(AddGeoFence.this, getResources().getString(R.string.toast_place_marker));
-
                         break;
                     case 2:
                         mToast.cancel();
                         mToast.makeText(AddGeoFence.this, getResources().getString(R.string.toast_current_location), Toast.LENGTH_SHORT).show();
 //                        NetworkUtil.setLongToast(AddGeoFence.this, getResources().getString(R.string.toast_current_location));
-
                         break;
 
                 }
@@ -295,7 +297,12 @@ public class AddGeoFence extends BaseActivity implements
 
     @Override
     protected void onStart() {
+
         super.onStart();
+
+        getCallingPermission();
+
+
         mGoogleApiClient.connect();
     }
 
@@ -471,4 +478,58 @@ public class AddGeoFence extends BaseActivity implements
 //        }
         super.onBackPressed();
     }
+
+
+    public boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if (result == PackageManager.PERMISSION_GRANTED){
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    public void requestPermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            Toast.makeText(this, "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_LOCATION_REQUEST_CODE);
+
+        } else {
+
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_LOCATION_REQUEST_CODE);
+        }
+    }
+
+
+    public void getCallingPermission() {
+        if (!checkPermission()) {
+            if(!SharedPrefrence.getBooleanSharedPrefernces(this,"bool")) {
+                SharedPrefrence.saveBooleanSharedPrefernces(this, "bool", true);
+                requestPermission();
+            }
+        }}
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        System.out.println("=======inside on onRequest Permission Result");
+        SharedPrefrence.saveBooleanSharedPrefernces(this, "bool", false);
+
+        switch (requestCode) {
+            case Constants.PERMISSION_LOCATION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startService(new Intent(this,GpsTrackingService.class));
+
+                } else {
+
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
 }
