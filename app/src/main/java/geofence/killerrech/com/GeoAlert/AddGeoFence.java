@@ -3,6 +3,7 @@ package geofence.killerrech.com.GeoAlert;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.killerrech.Geofence.GeofenceErrorMessages;
 import com.killerrech.Geofence.GeofenceTransitionsIntentService;
 import com.killerrech.Geofence.GpsTrackingService;
 import com.killerrech.Utility.NetworkUtil;
+import com.killerrech.Utility.Utils;
 import com.killerrech.constant.ConstantsForSharedPrefrences;
 import com.killerrech.database.TablesController;
 import com.killerrech.model.Geofencemodel;
@@ -496,10 +498,19 @@ public class AddGeoFence extends BaseActivity implements
     public void requestPermission(){
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
-
             Toast.makeText(this, "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_LOCATION_REQUEST_CODE);
 
+            GpsTrackingService.showPermissionNotAllow(AddGeoFence.this, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Utils.startInstalledAppDetailsActivity(AddGeoFence.this);
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    requestPermission();
+                }
+            });
         } else {
 
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_LOCATION_REQUEST_CODE);
@@ -525,7 +536,7 @@ public class AddGeoFence extends BaseActivity implements
                     startService(new Intent(this,GpsTrackingService.class));
 
                 } else {
-                    getCallingPermission();
+                        getCallingPermission();
                 }
                 break;
         }

@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -44,6 +45,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.killerrech.Geofence.Constants;
 import com.killerrech.Geofence.GpsTrackingService;
 import com.killerrech.Utility.NetworkUtil;
+import com.killerrech.Utility.Utils;
 import com.killerrech.adapter.ListAdapter;
 import com.killerrech.constant.ConstantsForSharedPrefrences;
 import com.killerrech.database.DBHelper;
@@ -533,9 +535,18 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
     public void requestPermission(){
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.ACCESS_FINE_LOCATION)){
-
+            GpsTrackingService.showPermissionNotAllow(MainActivity.this, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Utils.startInstalledAppDetailsActivity(MainActivity.this);
+                }
+            },new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    requestPermission();
+                }
+            });
             Toast.makeText(this, "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_LOCATION_REQUEST_CODE);
 
         } else {
 
@@ -546,9 +557,9 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
 
     public void getCallingPermission() {
         if (!checkPermission()) {
-            if(!SharedPrefrence.getBooleanSharedPrefernces(this,"bool")){
+            if(!SharedPrefrence.getBooleanSharedPrefernces(this,"bool"))
             SharedPrefrence.saveBooleanSharedPrefernces(this,"bool",true);
-            requestPermission();}
+            requestPermission();
         }else{if(map!=null)
             map.setMyLocationEnabled(true);
 

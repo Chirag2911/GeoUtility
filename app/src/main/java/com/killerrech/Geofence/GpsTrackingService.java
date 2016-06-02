@@ -1,6 +1,7 @@
 package com.killerrech.Geofence;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -301,7 +302,7 @@ public class GpsTrackingService extends Service {
                     alertDialog.show();
 
                 }
-    public static void showPermissionNotAllow(final Context contxt) {
+    public static void showPermissionNotAllow(final Activity contxt,DialogInterface.OnClickListener positiveButton,DialogInterface.OnClickListener onNegativeAction) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 contxt);
@@ -313,26 +314,8 @@ public class GpsTrackingService extends Service {
         alertDialogBuilder
                 .setMessage("Location permission is allow, please provide it from geoalert settings")
                 .setCancelable(false)
-                .setPositiveButton(contxt.getResources().getString(R.string.open_settings),new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, close
-                        // current activity
-                        Intent myIntent = new Intent( Settings.ACTION_SETTINGS);
-                        contxt.startActivity(myIntent);
-                        dialog.cancel();
-
-                    }
-                })
-                .setNegativeButton(contxt.getResources().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // if this button is clicked, just close
-                                // the dialog box and do nothing
-                                ((BaseActivity) contxt).finish();
-                                dialog.cancel();
-                            }
-                        }
-
-                );
+                .setPositiveButton(contxt.getResources().getString(R.string.open_settings),positiveButton)
+                .setNegativeButton(contxt.getResources().getString(R.string.Cancel), onNegativeAction);
 
         // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
