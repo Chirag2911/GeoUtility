@@ -508,7 +508,7 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void setGoogleMap(double mlat, double mlong, int r) {
+    private void setGoogleMap(double mlat, double mlong, int r) {
         if (map != null) {
             latLng = new LatLng(mlat, mlong);
 
@@ -519,7 +519,7 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
     }
 
 
-    public boolean checkPermission(){
+    private boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
         if (result == PackageManager.PERMISSION_GRANTED){
 
@@ -555,7 +555,7 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
     }
 
 
-    public void getCallingPermission() {
+    private void getCallingPermission() {
         if (!checkPermission()) {
             if(!SharedPrefrence.getBooleanSharedPrefernces(this,"bool"))
             SharedPrefrence.saveBooleanSharedPrefernces(this,"bool",true);

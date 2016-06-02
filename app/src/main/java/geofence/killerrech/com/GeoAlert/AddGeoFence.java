@@ -482,7 +482,7 @@ public class AddGeoFence extends BaseActivity implements
     }
 
 
-    public boolean checkPermission(){
+    private boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
         if (result == PackageManager.PERMISSION_GRANTED){
 
@@ -495,7 +495,7 @@ public class AddGeoFence extends BaseActivity implements
         }
     }
 
-    public void requestPermission(){
+    private void requestPermission(){
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
             Toast.makeText(this, "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
@@ -518,7 +518,7 @@ public class AddGeoFence extends BaseActivity implements
     }
 
 
-    public void getCallingPermission() {
+    private void getCallingPermission() {
         if (!checkPermission()) {
             if(!SharedPrefrence.getBooleanSharedPrefernces(this,"bool"))
                 SharedPrefrence.saveBooleanSharedPrefernces(this, "bool", true);
