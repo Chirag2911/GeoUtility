@@ -508,7 +508,7 @@ public class AddGeoFence extends BaseActivity implements
             }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    requestPermission();
+                    getCallingPermission();
                 }
             });
         } else {
@@ -520,10 +520,10 @@ public class AddGeoFence extends BaseActivity implements
 
     public void getCallingPermission() {
         if (!checkPermission()) {
-            if(!SharedPrefrence.getBooleanSharedPrefernces(this,"bool")) {
+            if(!SharedPrefrence.getBooleanSharedPrefernces(this,"bool"))
                 SharedPrefrence.saveBooleanSharedPrefernces(this, "bool", true);
                 requestPermission();
-            }
+
         }}
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

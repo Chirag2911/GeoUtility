@@ -540,10 +540,10 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
                 public void onClick(DialogInterface dialog, int which) {
                     Utils.startInstalledAppDetailsActivity(MainActivity.this);
                 }
-            },new DialogInterface.OnClickListener() {
+            }, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    requestPermission();
+                    getCallingPermission();
                 }
             });
             Toast.makeText(this, "GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
