@@ -565,7 +565,7 @@ public class MainActivity extends BaseActivity implements GoogleMap.OnMapLoadedC
                     map.setMyLocationEnabled(true);
 
                 } else {
-
+                    getCallingPermission();
                 }
                 break;
         }

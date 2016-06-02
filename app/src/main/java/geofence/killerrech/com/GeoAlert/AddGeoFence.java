@@ -287,7 +287,7 @@ public class AddGeoFence extends BaseActivity implements
      */
 
 
-    protected synchronized void buildGoogleApiClient() {
+    protected synchronized void buildGoogleApiClient     () {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -525,7 +525,7 @@ public class AddGeoFence extends BaseActivity implements
                     startService(new Intent(this,GpsTrackingService.class));
 
                 } else {
-
+                    getCallingPermission();
                 }
                 break;
         }
